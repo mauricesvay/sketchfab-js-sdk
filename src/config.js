@@ -6,7 +6,9 @@ var CONFIG = {
     POLL_ENDPOINT: '/v2/models/{uid}/status',
     MODEL_URL: '/models/{uid}',
 
-    CATEGORIES_ENDPOINT: '/v2/categories'
+    CATEGORIES_ENDPOINT: '/v2/categories',
+
+    USERS_ENDPOINT: '/v2/users'
 };
 
 module.exports = CONFIG;
