@@ -1,4 +1,4 @@
-var q = require('q');
+var Promise = require("bluebird");
 
 var Categories = require('./libs/Categories');
 var Models = require('./libs/Models');
@@ -28,60 +28,63 @@ Sketchfab.init = function(params) {
  */
 Sketchfab.connect = function() {
 
-    var deferred = q.defer();
+    return new Promise(function (resolve, reject) {
 
-    if (!Sketchfab.app_id) {
-        console.error("App ID is missing. Call Sketchfab.init with your app ID first.");
-    }
+        if (!Sketchfab.app_id) {
+            reject(new Error('App ID is missing. Call Sketchfab.init with your app ID first.'));
+            return;
+        }
 
-    var state = +(new Date());
-    var authorizeUrl = [
-        'https://sketchfab.com/oauth2/authorize/?',
-        'state=' + state,
-        '&response_type=token',
-        '&client_id=' + Sketchfab.app_id
-    ].join('');
+        var state = +(new Date());
+        var authorizeUrl = [
+            'https://sketchfab.com/oauth2/authorize/?',
+            'state=' + state,
+            '&response_type=token',
+            '&client_id=' + Sketchfab.app_id
+        ].join('');
 
-    var loginPopup = window.open(authorizeUrl, 'loginWindow', 'width=640,height=400');
+        var loginPopup = window.open(authorizeUrl, 'loginWindow', 'width=640,height=400');
 
-    // Polling new window
-    var timer = setInterval(function() {
-        try {
-            var url = loginPopup.location.href;
+        // Polling new window
+        var timer = setInterval(function() {
+            try {
+                var url = loginPopup.location.href;
 
-            // User closed popup
-            if (url === undefined) {
-                clearInterval(timer);
-                deferred.reject(new Error('Access denied (User closed popup)'));
-                return;
-            }
-
-            // User canceled or was denied access
-            if (url.indexOf('?error=access_denied') !== -1) {
-                clearInterval(timer);
-                deferred.reject(new Error('Access denied (User canceled)'));
-                return;
-            }
-
-            // Worked?
-            if (url.indexOf(Sketchfab.redirect_uri) !== -1) {
-                clearInterval(timer);
-
-                var hash = loginPopup.location.hash;
-                var accessTokenRe = RegExp('#access_token=([^&]+)&(.+)');
-                var accessToken = accessTokenRe.exec(hash)[1];
-
-                if (accessToken) {
-                    Sketchfab.accessToken = accessToken;
-                    deferred.resolve(Sketchfab.accessToken);
-                } else {
-                    deferred.reject(new Error('Access denied (missing token)'));
+                // User closed popup
+                if (url === undefined) {
+                    clearInterval(timer);
+                    reject(new Error('Access denied (User closed popup)'));
+                    return;
                 }
-            }
-        } catch (e) {}
-    }, 1000);
 
-    return deferred.promise;
+                // User canceled or was denied access
+                if (url.indexOf('?error=access_denied') !== -1) {
+                    clearInterval(timer);
+                    reject(new Error('Access denied (User canceled)'));
+                    return;
+                }
+
+                // Worked?
+                if (url.indexOf(Sketchfab.redirect_uri) !== -1) {
+                    clearInterval(timer);
+
+                    var hash = loginPopup.location.hash;
+                    var accessTokenRe = RegExp('#access_token=([^&]+)&(.+)');
+                    var accessToken = accessTokenRe.exec(hash)[1];
+
+                    if (accessToken) {
+                        Sketchfab.accessToken = accessToken;
+                        resolve(Sketchfab.accessToken);
+                        return;
+                    } else {
+                        reject(new Error('Access denied (missing token)'));
+                        return;
+                    }
+                }
+            } catch (e) {}
+        }, 1000);
+
+    });
 };
 
 Sketchfab.Categories = Categories;
