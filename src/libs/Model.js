@@ -37,6 +37,20 @@ Sketchfab.Model = {
         return API.get('/i/models/' + id + '/textures');
     },
 
+    /**
+     * Get comments for model. This method uses a private API. It might break in the future.
+     * @param {string} id - Model id
+     * @param {int} offset - Pagination offset
+     * @return Promise
+     */
+    comments: function(id, offset) {
+        console.warn('Model.comments is not a public API. It might break in the future.');
+        return API.get(config.COMMENTS_ENDPOINT, {
+            model: id,
+            offset: offset
+        });
+    }
+
 };
 
 module.exports = Sketchfab.Model;

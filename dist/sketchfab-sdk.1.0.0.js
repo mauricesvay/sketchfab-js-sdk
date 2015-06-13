@@ -26279,13 +26279,13 @@ var CONFIG = {
     BASE_API_URL: 'https://api.sketchfab.com',
     BASE_SERVER_URL: 'https://sketchfab.com',
 
-    MODELS_ENDPOINT: '/v2/models',
     POLL_ENDPOINT: '/v2/models/{uid}/status',
     MODEL_URL: '/models/{uid}',
 
     CATEGORIES_ENDPOINT: '/v2/categories',
-
-    USERS_ENDPOINT: '/v2/users'
+    COMMENTS_ENDPOINT: '/i/comments',
+    MODELS_ENDPOINT: '/v2/models',
+    USERS_ENDPOINT: '/v2/users',
 };
 
 module.exports = CONFIG;
@@ -26387,6 +26387,20 @@ Sketchfab.Model = {
         console.warn('Model.textures is not a public API. It might break in the future.');
         return API.get('/i/models/' + id + '/textures');
     },
+
+    /**
+     * Get comments for model. This method uses a private API. It might break in the future.
+     * @param {string} id - Model id
+     * @param {int} offset - Pagination offset
+     * @return Promise
+     */
+    comments: function(id, offset) {
+        console.warn('Model.comments is not a public API. It might break in the future.');
+        return API.get(config.COMMENTS_ENDPOINT, {
+            model: id,
+            offset: offset
+        });
+    }
 
 };
 
