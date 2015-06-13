@@ -21,6 +21,10 @@
         flex: 1;
         -webkit-flex: 1;
     }
+    code {
+        display: block;
+        margin-top: 1em;
+    }
     </style>
 </head>
 
@@ -34,36 +38,93 @@
 
         <h2>Models</h2>
         <ul>
-            <li><code>Sketchfab.Models.search(query, [offset])</code> <button onclick="Models_search()">search('diorama')</button></li>
-            <li><code>Sketchfab.Models.models(params)</code> <button onclick="Models_models()">models()</button></li>
-            <li><code>Sketchfab.Models.recent([offset])</code> <button onclick="Models_recent()">recent()</button></li>
-            <li><code>Sketchfab.Models.popular([offset])</code> <button onclick="Models_popular()">popular()</button></li>
-            <li><code>Sketchfab.Models.staffpicks([offset])</code> <button onclick="Models_staffpicks()">staffpicks()</button></li>
-            <li><code>Sketchfab.Models.byCategory(categoryId, [offset])</code> <button onclick="Models_byCategory()">byCategory('c92452986e70422ca2c6552835a89882')</button></li>
-            <li><code>Sketchfab.Models.byTag(tag, [offset])</code> <button onclick="Models_byTag()">byTag('substance')</button></li>
-            <li><code>Sketchfab.Models.byUserId(id)</code> <button onclick="Models_byUserId()">byUserId(116)</button></li>
+            <li>
+                <code>Sketchfab.Models.search(query, [offset])</code>
+                <button onclick="Models_search()">Sketchfab.Models.search('diorama')</button>
+            </li>
+            <li>
+                <code>Sketchfab.Models.models(params)</code>
+                <button onclick="Models_models()">Sketchfab.Models.models()</button>
+            </li>
+            <li>
+                <code>Sketchfab.Models.recent([offset])</code>
+                <button onclick="Models_recent()">Sketchfab.Models.recent()</button>
+            </li>
+            <li>
+                <code>Sketchfab.Models.popular([offset])</code>
+                <button onclick="Models_popular()">Sketchfab.Models.popular()</button>
+            </li>
+            <li>
+                <code>Sketchfab.Models.staffpicks([offset])</code>
+                <button onclick="Models_staffpicks()">Sketchfab.Models.staffpicks()</button>
+            </li>
+            <li>
+                <code>Sketchfab.Models.byCategory(categoryId, [offset])</code>
+                <button onclick="Models_byCategory()">Sketchfab.Models.byCategory('c92452986e70422ca2c6552835a89882')</button>
+            </li>
+            <li>
+                <code>Sketchfab.Models.byTag(tag, [offset])</code>
+                <button onclick="Models_byTag()">Sketchfab.Models.byTag('substance')</button>
+            </li>
+            <li>
+                <code>Sketchfab.Models.byUserId(id)</code>
+                <button onclick="Models_byUserId()">Sketchfab.Models.byUserId(116)</button>
+            </li>
         </ul>
 
         <h2>Model</h2>
         <ul>
-            <li><code>Sketchfab.Model.byId(id)</code> <button onclick="Model_byId()">byId('7w7pAfrCfjovwykkEeRFLGw5SXS')</button></li>
-            <li><code>Sketchfab.Model.annotations(id)</code> <button onclick="Model_annotations()">annotations('387889bbe73648c38589a3fffd1f876c')</button></li>
-            <li><code>Sketchfab.Model.textures(id)</code> <button onclick="Model_textures()">textures('387889bbe73648c38589a3fffd1f876c')</button></li>
+            <li>
+                <code>Sketchfab.Model.byId(id)</code>
+                <button onclick="Model_byId()">Sketchfab.Model.byId('7w7pAfrCfjovwykkEeRFLGw5SXS')</button>
+            </li>
+            <li>
+                <code>Sketchfab.Model.annotations(id)</code>
+                <button onclick="Model_annotations()">Sketchfab.Model.annotations('387889bbe73648c38589a3fffd1f876c')</button>
+            </li>
+            <li>
+                <code>Sketchfab.Model.textures(id)</code>
+                <button onclick="Model_textures()">Sketchfab.Model.textures('387889bbe73648c38589a3fffd1f876c')</button>
+            </li>
+            <li>
+                <code>Sketchfab.Model.comments(id)</code>
+                <button onclick="Model_comments()">Sketchfab.Model.comments('387889bbe73648c38589a3fffd1f876c')</button>
+            </li>
         </ul>
 
         <h2>Categories</h2>
         <ul>
-            <li><code>Sketchfab.Categories.all()</code> <button onclick="Categories_all()">all()</button></li>
+            <li>
+                <code>Sketchfab.Categories.all()</code>
+                <button onclick="Categories_all()">Sketchfab.Categories.all()</button>
+            </li>
         </ul>
 
         <h2>Users</h2>
         <ul>
-            <li><code>Sketchfab.Users.me(token)</code> See Authentication</li>
-            <li><code>Sketchfab.Users.all()</code> <button onclick="Users_all()">all()</button></li>
-            <li><code>Sketchfab.Users.byId(id)</code> <button onclick="Users_byId()">byId(116)</button></li>
-            <li><code>Sketchfab.Users.byUsername(username)</code> <button onclick="Users_byUsername()">byUsername('mestaty')</button></li>
-            <li><code>Sketchfab.Users.byLocation(location)</code> <button onclick="Users_byLocation()">byLocation('Paris')</button></li>
-            <li><code>Sketchfab.Users.bySkills(skills)</code> <button onclick="Users_bySkills()">bySkills('Blender')</button></li>
+            <li>
+                <code>Sketchfab.Users.me(token)</code> See Authentication
+            </li>
+            <li>
+                <code>Sketchfab.Users.all()</code>
+                <button onclick="Users_all()">Sketchfab.Users.all()</button>
+            </li>
+            <li>
+                <code>Sketchfab.Users.byId(id)</code>
+                <button onclick="Users_byId()">Sketchfab.Users.byId(116)</button>
+            </li>
+            <li>
+                <code>Sketchfab.Users.byUsername(username)</code>
+                <button onclick="Users_byUsername()">Sketchfab.Users.byUsername('mestaty')</button>
+            </li>
+            <li>
+                <code>Sketchfab.Users.byLocation(location)</code>
+                <button onclick="Users_byLocation()">Sketchfab.Users.byLocation('Paris')</button>
+            </li>
+            <li>
+                <code>Sketchfab.Users.bySkills(skills)</code>
+                <button onclick="Users_bySkills()">Sketchfab.Users.bySkills('Blender')</button>
+            </li>
         </ul>
 
         <h2>Authentication</h2>
@@ -110,6 +171,14 @@ function login() {
 
 
 <script type="text/javascript">
+
+function output(str) {
+    document.querySelector('.login-output').innerText = str;
+}
+
+/**
+ * Models
+ */
 var Models_fns = {
     'Models_search':['diorama'],
     'Models_models': [],
@@ -124,37 +193,48 @@ for (name in Models_fns) {
     (function(name){
         window[name] = function() {
             var method = name.replace('Models_','');
-            document.querySelector('.login-output').innerHTML = '';
+            output('');
             Sketchfab.Models[method].apply(this, Models_fns[name]).then(function(response){
-                document.querySelector('.login-output').innerHTML = JSON.stringify(response, null, 4);
+                output(JSON.stringify(response, null, 4));
             });
         };
     })(name);
 }
 
-function Model_byId() {
-    Sketchfab.Model.byId('7w7pAfrCfjovwykkEeRFLGw5SXS').then(function(response){
-        document.querySelector('.login-output').innerHTML = JSON.stringify(response, null, 4);
-    });
+/**
+ * Model
+ */
+var Model_fns = {
+    'Model_byId' : ['7w7pAfrCfjovwykkEeRFLGw5SXS'],
+    'Model_annotations' : ['387889bbe73648c38589a3fffd1f876c'],
+    'Model_textures' : ['387889bbe73648c38589a3fffd1f876c'],
+    'Model_comments' : ['387889bbe73648c38589a3fffd1f876c']
 }
-function Model_annotations() {
-    Sketchfab.Model.annotations('387889bbe73648c38589a3fffd1f876c').then(function(response){
-        document.querySelector('.login-output').innerHTML = JSON.stringify(response, null, 4);
-    });
-}
-function Model_textures() {
-    Sketchfab.Model.textures('387889bbe73648c38589a3fffd1f876c').then(function(response){
-        document.querySelector('.login-output').innerHTML = JSON.stringify(response, null, 4);
-    });
+for (name in Model_fns) {
+    (function(name){
+        window[name] = function() {
+            var method = name.replace('Model_','');
+            output('');
+            Sketchfab.Model[method].apply(this, Model_fns[name]).then(function(response){
+                output(JSON.stringify(response, null, 4));
+            });
+        };
+    })(name);
 }
 
+/**
+ * Categories
+ */
 function Categories_all() {
     document.querySelector('.login-output').innerHTML = '';
     Sketchfab.Categories.all().then(function(response){
-        document.querySelector('.login-output').innerHTML = JSON.stringify(response, null, 4);
+        output(JSON.stringify(response, null, 4));
     });
 }
 
+/**
+ * Users
+ */
 var Users_fns = {
     'Users_all': [],
     'Users_byId': [116],
@@ -166,15 +246,17 @@ for (name in Users_fns) {
     (function(name){
         window[name] = function() {
             var method = name.replace('Users_','');
-            document.querySelector('.login-output').innerHTML = '';
+            output('');
             Sketchfab.Users[method].apply(this, Users_fns[name]).then(function(response){
-                document.querySelector('.login-output').innerHTML = JSON.stringify(response, null, 4);
+                output(JSON.stringify(response, null, 4));
             });
         };
     })(name);
 }
-</script>
-<script type="text/javascript">
+
+/**
+ * Authentication
+ */
 function login() {
     // Authenticate with OAuth2
     Sketchfab.connect()
@@ -185,7 +267,7 @@ function login() {
         .then(function(response){
             // Log user info
             console.log(response);
-            document.querySelector('.login-output').innerHTML = JSON.stringify(response, null, 4);
+            output(JSON.stringify(response, null, 4));
         })
         .catch(function(error){
             console.log(error);
