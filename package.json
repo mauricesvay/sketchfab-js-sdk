@@ -1,8 +1,8 @@
 {
   "name": "sketchfab-js",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Sketchfab JS SDK",
+  "main": "src/Sketchfab.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
