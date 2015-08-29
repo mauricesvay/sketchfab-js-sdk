@@ -1,6 +1,5 @@
 'use strict';
 
-var _ = require('lodash');
 var API = require('./API');
 var config = require('../config');
 

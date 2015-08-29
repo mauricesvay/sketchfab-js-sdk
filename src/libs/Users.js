@@ -1,6 +1,10 @@
 'use strict';
 
-var _ = require('lodash');
+var _ = {
+    pick: require('lodash/object/pick'),
+    defaults: require('lodash/object/defaults'),
+    keys: require('lodash/object/keys')
+};
 var API = require('./API');
 var config = require('../config');
 

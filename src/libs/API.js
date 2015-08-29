@@ -1,15 +1,13 @@
 'use strict';
 
-var $ = require('jquery');
-var _ = require('lodash');
+var reqwest = require('reqwest');
 var config = require('../config');
 
-//Use CORS proxy
-// $.ajaxPrefilter(function(options) {
-//     if (options.crossDomain && $.support.cors) {
-//         options.url = 'https://furious-stream-4406.herokuapp.com/' + options.url;
-//     }
-// });
+var _ = {
+    pick: require('lodash/object/pick'),
+    defaults: require('lodash/object/defaults'),
+    identity: require('lodash/utility/identity')
+};
 
 var API = {
 
@@ -18,12 +16,12 @@ var API = {
         params = _.pick(_.defaults(params, {}), _.identity); // Prune empty params
         headers = _.defaults(headers, {});
 
-        return $.ajax({
-            type: 'GET',
+        return reqwest({
+            method: 'get',
             url: config.BASE_API_URL + path,
             data: params,
             headers: headers,
-            crossDomain: true
+            crossOrigin: true
         });
     },
 
