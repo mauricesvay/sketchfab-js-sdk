@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: libs/Categories.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,39 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: libs/Categories.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+var API = require('./API');
+var config = require('../config');
 
-    <h3> </h3>
+var Sketchfab = {};
 
+/** @namespace */
+Sketchfab.Categories = {
 
+    /**
+     * Get categories
+     * @return Promise
+     */
+    all: function() {
+        return API.get(config.CATEGORIES_ENDPOINT);
+    }
 
+};
 
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = Sketchfab.Categories;
+</code></pre>
+        </article>
+    </section>
 
 
 

@@ -4,7 +4,8 @@
   "description": "Sketchfab JS SDK",
   "main": "src/Sketchfab.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "jsdoc -r ./src/ -d ./dist/docs/"
   },
   "author": "Sketchfab",
   "license": "ISC",
@@ -17,7 +18,6 @@
   "devDependencies": {
     "browserify": "^9.0.6",
     "gulp": "^3.8.11",
-    "gulp-jsdoc": "^0.1.4",
     "vinyl-source-stream": "^1.1.0"
   }
 }

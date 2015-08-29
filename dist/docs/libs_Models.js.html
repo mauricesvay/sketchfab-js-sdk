@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: libs/Models.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: libs/Models.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+var _ = {
+    pick: require('lodash/object/pick'),
+    defaults: require('lodash/object/defaults'),
+    keys: require('lodash/object/keys')
+};
+var API = require('./API');
+var config = require('../config');
+
+var Sketchfab = {};
+
+var defaults = {
+    'count': 24,
+    'offset': null,
+
+    'search': null, // query
+
+    'flag': null, // 'staffpicked'
+    'categories': null, // category id
+    'tags': null, // tag
+    'date': null, // number of days
+    'face_count': null,
+    'liked_by': null, // user id
+    'user': null, // user id
+    'folder': null, // folder id
+
+    'sort_by': '-createdAt', // '-createdAt', '-viewCount', '-likeCount'
+};
+
+/** @namespace */
+Sketchfab.Models = {
+
+    /**
+     * Get models by params
+     * @param {object} [params] - Filtering and sorting parameters
+     * @param {int} [params.count=24] - Number of results
+     * @param {int} [params.offset] - Offset for pagination
+     * @param {string} [params.sort_by='-createdAt'] - Sorting field ['-createdAt', '-viewCount', '-likeCount']
+     *
+     * @param {string} [params.search] - Search term
+     * @param {string} [params.flag] - Flag: ['staffpicked']
+     * @param {string} [params.categories] - Category id
+     * @param {string} [params.tags] - Tags
+     * @param {int} [params.date] - Filter on the last X days
+     * @param {int} [params.face_count] - Filter on the number of faces
+     * @param {string} [params.liked_by] - User id to get likes from
+     * @param {string} [params.user] - User id to get models from
+     * @param {string} [params.folder] - Folder id to get models from
+     *
+     * @return Promise
+     */
+    models: function(params) {
+
+        // Fill in default values, remove unknown params
+        params = _.pick(_.defaults(params, defaults), _.keys(defaults));
+
+        return API.get(config.MODELS_ENDPOINT, params);
+    },
+
+    /**
+     * Get recent models
+     * @param {int} [offset] - Pagination offset
+     * @return Promise
+     */
+    recent: function(offset) {
+        return Sketchfab.Models.models({
+            offset: offset
+        });
+    },
+
+    /**
+     * Get popular models.
+     * Models published during the last 7 days, sorted by views
+     * @param {int} [offset] - Pagination offset
+     * @return Promise
+     */
+    popular: function(offset) {
+        return Sketchfab.Models.models({
+            date: 7,
+            sort_by: '-viewCount',
+            offset: offset
+        });
+    },
+
+    /**
+     * Get staffpicked models
+     * @param {int} [offset] - Pagination offset
+     * @return Promise
+     */
+    staffpicks: function(offset) {
+        return Sketchfab.Models.models({
+            flag: 'staffpicked',
+            offset: offset
+        });
+    },
+
+    /**
+     * Search for models
+     * @param {string} query - Search term
+     * @param {int} [offset] - Pagination offset
+     * @return Promise
+     */
+    search: function(query, offset) {
+        return Sketchfab.Models.models({
+            search: query,
+            offset: offset
+        });
+    },
+
+    /**
+     * Get models for category
+     * @param {string} categoryId - id of category
+     * @param {int} [offset] - Pagination offset
+     * @return Promise
+     */
+    byCategory: function(categoryId, offset) {
+        return Sketchfab.Models.models({
+            categories: categoryId,
+            offset: offset
+        });
+    },
+
+    /**
+     * Get models for tag
+     * @param {string} tag - Tag slug
+     * @param {int} [offset] - Pagination offset
+     * @return Promise
+     */
+    byTag: function(tag, offset) {
+        return Sketchfab.Models.models({
+            tags: tag,
+            offset: offset
+        });
+    },
+
+    /**
+     * Get models for user
+     * @param {string} userId - id of user
+     * @param {int} [offset] - Pagination offset
+     * @return Promise
+     */
+    byUserId: function(userId, offset) {
+        return Sketchfab.Models.models({
+            user: userId,
+            offset: offset
+        });
+    }
+};
+
+module.exports = Sketchfab.Models;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="Sketchfab.html">Sketchfab</a></li><li><a href="Sketchfab.Categories.html">Categories</a></li><li><a href="Sketchfab.Model.html">Model</a></li><li><a href="Sketchfab.Models.html">Models</a></li><li><a href="Sketchfab.Users.html">Users</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Sat Aug 29 2015 23:22:11 GMT+0200 (CEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
