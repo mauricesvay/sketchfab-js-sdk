@@ -1,4 +1,4 @@
-var Promise = require("bluebird");
+var when = require('when');
 
 var Categories = require('./libs/Categories');
 var Models = require('./libs/Models');
@@ -28,7 +28,7 @@ Sketchfab.init = function(params) {
  */
 Sketchfab.connect = function() {
 
-    return new Promise(function (resolve, reject) {
+    return when.promise(function (resolve, reject) {
 
         if (!Sketchfab.app_id) {
             reject(new Error('App ID is missing. Call Sketchfab.init with your app ID first.'));
