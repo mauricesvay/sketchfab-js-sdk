@@ -60,7 +60,9 @@ Sketchfab.Models = {
      * @return Promise
      */
     recent: function(offset) {
-        return Sketchfab.Models.models({}, offset);
+        return Sketchfab.Models.models({
+            offset: offset
+        });
     },
 
     /**
