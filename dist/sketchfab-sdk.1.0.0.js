@@ -1,6 +1,7 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.Sketchfab = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var when = require('when');
 
+var config = require('./config');
 var Categories = require('./libs/Categories');
 var Models = require('./libs/Models');
 var Model = require('./libs/Model');
@@ -10,16 +11,22 @@ var Users = require('./libs/Users');
 var Sketchfab = {};
 
 Sketchfab.appId = null;
+Sketchfab.hostname = config.HOSTNAME;
 
 /**
  * Initialize SDK. Only required for OAuth2.
  * @param {Object} params - Initialization parameters
  * @param {string} params.client_id - OAuth2 Client ID
  * @param {string} params.redirect_uri - OAuth2 Redirect URI
+ * @param {string} [params.hostname] - Hostname
  */
 Sketchfab.init = function(params) {
     Sketchfab.app_id = params.client_id;
     Sketchfab.redirect_uri = params.redirect_uri;
+
+    if (params.hostname) {
+        config.HOSTNAME = params.hostname;
+    }
 };
 
 /**
@@ -29,7 +36,7 @@ Sketchfab.init = function(params) {
  */
 Sketchfab.connect = function() {
 
-    return when.promise(function (resolve, reject) {
+    return when.promise(function(resolve, reject) {
 
         if (!Sketchfab.app_id) {
             reject(new Error('App ID is missing. Call Sketchfab.init with your app ID first.'));
@@ -38,7 +45,7 @@ Sketchfab.connect = function() {
 
         var state = +(new Date());
         var authorizeUrl = [
-            'https://sketchfab.com/oauth2/authorize/?',
+            'https://' + config.HOSTNAME + '/oauth2/authorize/?',
             'state=' + state,
             '&response_type=token',
             '&client_id=' + Sketchfab.app_id
@@ -95,7 +102,7 @@ Sketchfab.Users = Users;
 
 module.exports = Sketchfab;
 
-},{"./libs/Categories":61,"./libs/Model":62,"./libs/Models":63,"./libs/Users":64,"when":57}],2:[function(require,module,exports){
+},{"./config":59,"./libs/Categories":61,"./libs/Model":62,"./libs/Models":63,"./libs/Users":64,"when":57}],2:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -4233,8 +4240,10 @@ module.exports = XMLHttpRequest;
 
 },{}],59:[function(require,module,exports){
 var CONFIG = {
-    BASE_API_URL: 'https://api.sketchfab.com',
-    BASE_SERVER_URL: 'https://sketchfab.com',
+    HOSTNAME: 'sketchfab.com',
+
+    BASE_API_URL: 'https://api.{{HOSTNAME}}',
+    BASE_SERVER_URL: 'https://{{HOSTNAME}}',
 
     POLL_ENDPOINT: '/v2/models/{uid}/status',
     MODEL_URL: '/models/{uid}',
@@ -4261,14 +4270,14 @@ var _ = {
 
 var API = {
 
-    get: function( path, params, headers ) {
+    get: function(path, params, headers) {
 
         params = _.pick(_.defaults(params, {}), _.identity); // Prune empty params
         headers = _.defaults(headers, {});
-
+        console.log(config);
         return reqwest({
             method: 'get',
-            url: config.BASE_API_URL + path,
+            url: config.BASE_API_URL.replace('{{HOSTNAME}}', config.HOSTNAME) + path,
             data: params,
             headers: headers,
             crossOrigin: true

@@ -1,6 +1,8 @@
 var CONFIG = {
-    BASE_API_URL: 'https://api.sketchfab.com',
-    BASE_SERVER_URL: 'https://sketchfab.com',
+    HOSTNAME: 'sketchfab.com',
+
+    BASE_API_URL: 'https://api.{{HOSTNAME}}',
+    BASE_SERVER_URL: 'https://{{HOSTNAME}}',
 
     POLL_ENDPOINT: '/v2/models/{uid}/status',
     MODEL_URL: '/models/{uid}',

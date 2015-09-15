@@ -1,5 +1,6 @@
 var when = require('when');
 
+var config = require('./config');
 var Categories = require('./libs/Categories');
 var Models = require('./libs/Models');
 var Model = require('./libs/Model');
@@ -9,16 +10,22 @@ var Users = require('./libs/Users');
 var Sketchfab = {};
 
 Sketchfab.appId = null;
+Sketchfab.hostname = config.HOSTNAME;
 
 /**
  * Initialize SDK. Only required for OAuth2.
  * @param {Object} params - Initialization parameters
  * @param {string} params.client_id - OAuth2 Client ID
  * @param {string} params.redirect_uri - OAuth2 Redirect URI
+ * @param {string} [params.hostname] - Hostname
  */
 Sketchfab.init = function(params) {
     Sketchfab.app_id = params.client_id;
     Sketchfab.redirect_uri = params.redirect_uri;
+
+    if (params.hostname) {
+        config.HOSTNAME = params.hostname;
+    }
 };
 
 /**
@@ -28,7 +35,7 @@ Sketchfab.init = function(params) {
  */
 Sketchfab.connect = function() {
 
-    return when.promise(function (resolve, reject) {
+    return when.promise(function(resolve, reject) {
 
         if (!Sketchfab.app_id) {
             reject(new Error('App ID is missing. Call Sketchfab.init with your app ID first.'));
@@ -37,7 +44,7 @@ Sketchfab.connect = function() {
 
         var state = +(new Date());
         var authorizeUrl = [
-            'https://sketchfab.com/oauth2/authorize/?',
+            'https://' + config.HOSTNAME + '/oauth2/authorize/?',
             'state=' + state,
             '&response_type=token',
             '&client_id=' + Sketchfab.app_id
