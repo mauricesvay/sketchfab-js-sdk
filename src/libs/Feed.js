@@ -29,6 +29,8 @@ Sketchfab.Feed = {
      */
     items: function(token, params) {
 
+        console.warn('Feed.items is not a public API. It might break in the future.');
+
         var headers = {};
         if (token) {
             headers['Authorization'] = 'Bearer ' + token;
