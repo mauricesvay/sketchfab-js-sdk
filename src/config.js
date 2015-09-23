@@ -11,6 +11,7 @@ var CONFIG = {
     COMMENTS_ENDPOINT: '/i/comments',
     MODELS_ENDPOINT: '/v2/models',
     USERS_ENDPOINT: '/v2/users',
+    FEED_ENDPOINT: '/i/feeds'
 };
 
 module.exports = CONFIG;

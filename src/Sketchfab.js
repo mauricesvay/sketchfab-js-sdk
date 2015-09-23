@@ -1,10 +1,13 @@
 var when = require('when');
 
 var config = require('./config');
+var utils = require('./utils');
+
 var Categories = require('./libs/Categories');
 var Models = require('./libs/Models');
 var Model = require('./libs/Model');
 var Users = require('./libs/Users');
+var Feed = require('./libs/Feed');
 
 /** @namespace */
 var Sketchfab = {};
@@ -76,12 +79,12 @@ Sketchfab.connect = function() {
                     clearInterval(timer);
 
                     var hash = loginPopup.location.hash;
-                    var accessTokenRe = RegExp('#access_token=([^&]+)&(.+)');
-                    var accessToken = accessTokenRe.exec(hash)[1];
+                    var grant;
+                    var accessTokenRe = RegExp('access_token=([^&]+)');
 
-                    if (accessToken) {
-                        Sketchfab.accessToken = accessToken;
-                        resolve(Sketchfab.accessToken);
+                    if (hash.match(accessTokenRe)) {
+                        grant = utils.parseQueryString(hash.substring(1));
+                        resolve(grant);
                         return;
                     } else {
                         reject(new Error('Access denied (missing token)'));
@@ -98,5 +101,6 @@ Sketchfab.Categories = Categories;
 Sketchfab.Models = Models;
 Sketchfab.Model = Model;
 Sketchfab.Users = Users;
+Sketchfab.Feed = Feed;
 
 module.exports = Sketchfab;

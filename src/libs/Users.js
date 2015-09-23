@@ -33,8 +33,6 @@ Sketchfab.Users = {
             headers['Authorization'] = 'Bearer ' + token;
         }
         return API.get('/v2/users/me', null, headers);
-        //@TODO : this fails because preflight requests do not contain Authorization header
-        // and server rejects them. Server should return 200 when header is missing
     },
 
     /**
