@@ -150,9 +150,9 @@ Sketchfab.init({
 function login() {
     // Authenticate with OAuth2
     Sketchfab.connect()
-        .then(function(token){
+        .then(function(grant){
             // Get user info
-            return Sketchfab.Users.me(token);
+            return Sketchfab.Users.me(grant.access_token);
         })
         .then(function(response){
             // Log user info
