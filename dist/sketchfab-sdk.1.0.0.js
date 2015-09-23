@@ -2,10 +2,13 @@
 var when = require('when');
 
 var config = require('./config');
+var utils = require('./utils');
+
 var Categories = require('./libs/Categories');
 var Models = require('./libs/Models');
 var Model = require('./libs/Model');
 var Users = require('./libs/Users');
+var Feed = require('./libs/Feed');
 
 /** @namespace */
 var Sketchfab = {};
@@ -77,12 +80,12 @@ Sketchfab.connect = function() {
                     clearInterval(timer);
 
                     var hash = loginPopup.location.hash;
-                    var accessTokenRe = RegExp('#access_token=([^&]+)&(.+)');
-                    var accessToken = accessTokenRe.exec(hash)[1];
+                    var grant;
+                    var accessTokenRe = RegExp('access_token=([^&]+)');
 
-                    if (accessToken) {
-                        Sketchfab.accessToken = accessToken;
-                        resolve(Sketchfab.accessToken);
+                    if (hash.match(accessTokenRe)) {
+                        grant = utils.parseQueryString(hash.substring(1));
+                        resolve(grant);
                         return;
                     } else {
                         reject(new Error('Access denied (missing token)'));
@@ -99,10 +102,11 @@ Sketchfab.Categories = Categories;
 Sketchfab.Models = Models;
 Sketchfab.Model = Model;
 Sketchfab.Users = Users;
+Sketchfab.Feed = Feed;
 
 module.exports = Sketchfab;
 
-},{"./config":59,"./libs/Categories":61,"./libs/Model":62,"./libs/Models":63,"./libs/Users":64,"when":57}],2:[function(require,module,exports){
+},{"./config":59,"./libs/Categories":61,"./libs/Feed":62,"./libs/Model":63,"./libs/Models":64,"./libs/Users":65,"./utils":66,"when":57}],2:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -4252,6 +4256,7 @@ var CONFIG = {
     COMMENTS_ENDPOINT: '/i/comments',
     MODELS_ENDPOINT: '/v2/models',
     USERS_ENDPOINT: '/v2/users',
+    FEED_ENDPOINT: '/i/feeds'
 };
 
 module.exports = CONFIG;
@@ -4274,7 +4279,6 @@ var API = {
 
         params = _.pick(_.defaults(params, {}), _.identity); // Prune empty params
         headers = _.defaults(headers, {});
-        console.log(config);
         return reqwest({
             method: 'get',
             url: config.BASE_API_URL.replace('{{HOSTNAME}}', config.HOSTNAME) + path,
@@ -4312,6 +4316,54 @@ Sketchfab.Categories = {
 module.exports = Sketchfab.Categories;
 
 },{"../config":59,"./API":60}],62:[function(require,module,exports){
+'use strict';
+
+var _ = {
+    pick: require('lodash/object/pick'),
+    defaults: require('lodash/object/defaults'),
+    keys: require('lodash/object/keys')
+};
+var API = require('./API');
+var config = require('../config');
+
+var Sketchfab = {};
+
+var defaults = {
+    'count': 20,
+    'offset': null,
+};
+
+/** @namespace */
+Sketchfab.Feed = {
+
+    /**
+     * Get feed stories
+     * @param {object} token - OAuth2 access token
+     * @param {object} [params] - Filtering and sorting parameters
+     * @param {int} [params.count=20] - Number of results
+     * @param {int} [params.offset] - Offset for pagination
+     *
+     * @return Promise
+     */
+    items: function(token, params) {
+
+        var headers = {};
+        if (token) {
+            headers['Authorization'] = 'Bearer ' + token;
+        } else {
+            throw new Error('OAuth2 access token is missing');
+        }
+
+        // Fill in default values, remove unknown params
+        params = _.pick(_.defaults(params, defaults), _.keys(defaults));
+
+        return API.get(config.FEED_ENDPOINT, params, headers);
+    },
+};
+
+module.exports = Sketchfab.Feed;
+
+},{"../config":59,"./API":60,"lodash/object/defaults":34,"lodash/object/keys":35,"lodash/object/pick":37}],63:[function(require,module,exports){
 'use strict';
 
 var API = require('./API');
@@ -4369,7 +4421,7 @@ Sketchfab.Model = {
 
 module.exports = Sketchfab.Model;
 
-},{"../config":59,"./API":60}],63:[function(require,module,exports){
+},{"../config":59,"./API":60}],64:[function(require,module,exports){
 'use strict';
 
 var _ = {
@@ -4522,7 +4574,7 @@ Sketchfab.Models = {
 
 module.exports = Sketchfab.Models;
 
-},{"../config":59,"./API":60,"lodash/object/defaults":34,"lodash/object/keys":35,"lodash/object/pick":37}],64:[function(require,module,exports){
+},{"../config":59,"./API":60,"lodash/object/defaults":34,"lodash/object/keys":35,"lodash/object/pick":37}],65:[function(require,module,exports){
 'use strict';
 
 var _ = {
@@ -4558,8 +4610,6 @@ Sketchfab.Users = {
             headers['Authorization'] = 'Bearer ' + token;
         }
         return API.get('/v2/users/me', null, headers);
-        //@TODO : this fails because preflight requests do not contain Authorization header
-        // and server rejects them. Server should return 200 when header is missing
     },
 
     /**
@@ -4630,5 +4680,19 @@ Sketchfab.Users = {
 
 module.exports = Sketchfab.Users;
 
-},{"../config":59,"./API":60,"lodash/object/defaults":34,"lodash/object/keys":35,"lodash/object/pick":37}]},{},[1])(1)
+},{"../config":59,"./API":60,"lodash/object/defaults":34,"lodash/object/keys":35,"lodash/object/pick":37}],66:[function(require,module,exports){
+function parseQueryString(queryString) {
+    var result = {};
+    queryString.split("&").forEach(function(part) {
+        var item = part.split("=");
+        result[item[0]] = decodeURIComponent(item[1]);
+    });
+    return result;
+}
+
+module.exports = {
+    parseQueryString: parseQueryString
+};
+
+},{}]},{},[1])(1)
 });

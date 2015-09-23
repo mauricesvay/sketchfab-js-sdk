@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: libs/Categories.js</title>
+    <title>JSDoc: Source: libs/Feed.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: libs/Categories.js</h1>
+    <h1 class="page-title">Source: libs/Feed.js</h1>
 
     
 
@@ -28,25 +28,50 @@
         <article>
             <pre class="prettyprint source linenums"><code>'use strict';
 
+var _ = {
+    pick: require('lodash/object/pick'),
+    defaults: require('lodash/object/defaults'),
+    keys: require('lodash/object/keys')
+};
 var API = require('./API');
 var config = require('../config');
 
 var Sketchfab = {};
 
-/** @namespace */
-Sketchfab.Categories = {
-
-    /**
-     * Get categories
-     * @return Promise
-     */
-    all: function() {
-        return API.get(config.CATEGORIES_ENDPOINT);
-    }
-
+var defaults = {
+    'count': 20,
+    'offset': null,
 };
 
-module.exports = Sketchfab.Categories;
+/** @namespace */
+Sketchfab.Feed = {
+
+    /**
+     * Get feed stories
+     * @param {object} token - OAuth2 access token
+     * @param {object} [params] - Filtering and sorting parameters
+     * @param {int} [params.count=20] - Number of results
+     * @param {int} [params.offset] - Offset for pagination
+     *
+     * @return Promise
+     */
+    items: function(token, params) {
+
+        var headers = {};
+        if (token) {
+            headers['Authorization'] = 'Bearer ' + token;
+        } else {
+            throw new Error('OAuth2 access token is missing');
+        }
+
+        // Fill in default values, remove unknown params
+        params = _.pick(_.defaults(params, defaults), _.keys(defaults));
+
+        return API.get(config.FEED_ENDPOINT, params, headers);
+    },
+};
+
+module.exports = Sketchfab.Feed;
 </code></pre>
         </article>
     </section>
