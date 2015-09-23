@@ -43,7 +43,7 @@
                 <button onclick="Models_search()">Sketchfab.Models.search('diorama')</button>
             </li>
             <li>
-                <code>Sketchfab.Models.models(params)</code>
+                <code>Sketchfab.Models.models([params])</code>
                 <button onclick="Models_models()">Sketchfab.Models.models()</button>
             </li>
             <li>
@@ -106,7 +106,7 @@
                 <code>Sketchfab.Users.me(token)</code> See Authentication
             </li>
             <li>
-                <code>Sketchfab.Users.all()</code>
+                <code>Sketchfab.Users.all([params])</code>
                 <button onclick="Users_all()">Sketchfab.Users.all()</button>
             </li>
             <li>
@@ -118,11 +118,11 @@
                 <button onclick="Users_byUsername()">Sketchfab.Users.byUsername('mestaty')</button>
             </li>
             <li>
-                <code>Sketchfab.Users.byLocation(location)</code>
+                <code>Sketchfab.Users.byLocation(location, [offset])</code>
                 <button onclick="Users_byLocation()">Sketchfab.Users.byLocation('Paris')</button>
             </li>
             <li>
-                <code>Sketchfab.Users.bySkills(skills)</code>
+                <code>Sketchfab.Users.bySkills(skills, [offset])</code>
                 <button onclick="Users_bySkills()">Sketchfab.Users.bySkills('Blender')</button>
             </li>
         </ul>
@@ -130,7 +130,7 @@
         <h2>Feed</h2>
         <ul>
             <li>
-                <code>Sketchfab.Feed.items(token)</code>
+                <code>Sketchfab.Feed.items(token, [params])</code>
                 <button onclick="Feed_items()">Sketchfab.Feed.items(token)</button>
             </li>
         </ul>
