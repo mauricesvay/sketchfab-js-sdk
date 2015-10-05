@@ -3,10 +3,10 @@
 var API = require('./API');
 var config = require('../config');
 
-var Sketchfab = {};
+var SketchfabSDK = {};
 
 /** @namespace */
-Sketchfab.Model = {
+SketchfabSDK.Model = {
 
     /**
      * Get model by id
@@ -53,4 +53,4 @@ Sketchfab.Model = {
 
 };
 
-module.exports = Sketchfab.Model;
+module.exports = SketchfabSDK.Model;

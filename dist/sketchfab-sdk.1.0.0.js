@@ -1,4 +1,4 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.Sketchfab = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.SketchfabSDK = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var when = require('when');
 
 var config = require('./config');
@@ -11,10 +11,10 @@ var Users = require('./libs/Users');
 var Feed = require('./libs/Feed');
 
 /** @namespace */
-var Sketchfab = {};
+var SketchfabSDK = {};
 
-Sketchfab.appId = null;
-Sketchfab.hostname = config.HOSTNAME;
+SketchfabSDK.appId = null;
+SketchfabSDK.hostname = config.HOSTNAME;
 
 /**
  * Initialize SDK. Only required for OAuth2.
@@ -23,9 +23,9 @@ Sketchfab.hostname = config.HOSTNAME;
  * @param {string} params.redirect_uri - OAuth2 Redirect URI
  * @param {string} [params.hostname] - Hostname
  */
-Sketchfab.init = function(params) {
-    Sketchfab.app_id = params.client_id;
-    Sketchfab.redirect_uri = params.redirect_uri;
+SketchfabSDK.init = function(params) {
+    SketchfabSDK.app_id = params.client_id;
+    SketchfabSDK.redirect_uri = params.redirect_uri;
 
     if (params.hostname) {
         config.HOSTNAME = params.hostname;
@@ -33,25 +33,26 @@ Sketchfab.init = function(params) {
 };
 
 /**
- * Login with Sketchfab.
+ * Login with SketchfabSDK.
  * Browsers only.
  * @return Promise
  */
-Sketchfab.connect = function() {
+SketchfabSDK.connect = function() {
 
     return when.promise(function(resolve, reject) {
 
-        if (!Sketchfab.app_id) {
-            reject(new Error('App ID is missing. Call Sketchfab.init with your app ID first.'));
+        if (!SketchfabSDK.app_id) {
+            reject(new Error('App ID is missing. Call SketchfabSDK.init with your app ID first.'));
             return;
         }
 
+        // @TODO: allow users to pass their own state
         var state = +(new Date());
         var authorizeUrl = [
             'https://' + config.HOSTNAME + '/oauth2/authorize/?',
             'state=' + state,
             '&response_type=token',
-            '&client_id=' + Sketchfab.app_id
+            '&client_id=' + SketchfabSDK.app_id
         ].join('');
 
         var loginPopup = window.open(authorizeUrl, 'loginWindow', 'width=640,height=400');
@@ -76,7 +77,7 @@ Sketchfab.connect = function() {
                 }
 
                 // Worked?
-                if (url.indexOf(Sketchfab.redirect_uri) !== -1) {
+                if (url.indexOf(SketchfabSDK.redirect_uri) !== -1) {
                     clearInterval(timer);
 
                     var hash = loginPopup.location.hash;
@@ -98,13 +99,13 @@ Sketchfab.connect = function() {
     });
 };
 
-Sketchfab.Categories = Categories;
-Sketchfab.Models = Models;
-Sketchfab.Model = Model;
-Sketchfab.Users = Users;
-Sketchfab.Feed = Feed;
+SketchfabSDK.Categories = Categories;
+SketchfabSDK.Models = Models;
+SketchfabSDK.Model = Model;
+SketchfabSDK.Users = Users;
+SketchfabSDK.Feed = Feed;
 
-module.exports = Sketchfab;
+module.exports = SketchfabSDK;
 
 },{"./config":59,"./libs/Categories":61,"./libs/Feed":62,"./libs/Model":63,"./libs/Models":64,"./libs/Users":65,"./utils":66,"when":57}],2:[function(require,module,exports){
 // shim for using process in browser
@@ -4298,10 +4299,10 @@ module.exports = API;
 var API = require('./API');
 var config = require('../config');
 
-var Sketchfab = {};
+var SketchfabSDK = {};
 
 /** @namespace */
-Sketchfab.Categories = {
+SketchfabSDK.Categories = {
 
     /**
      * Get categories
@@ -4313,7 +4314,7 @@ Sketchfab.Categories = {
 
 };
 
-module.exports = Sketchfab.Categories;
+module.exports = SketchfabSDK.Categories;
 
 },{"../config":59,"./API":60}],62:[function(require,module,exports){
 'use strict';
@@ -4326,7 +4327,7 @@ var _ = {
 var API = require('./API');
 var config = require('../config');
 
-var Sketchfab = {};
+var SketchfabSDK = {};
 
 var defaults = {
     'count': 20,
@@ -4334,7 +4335,7 @@ var defaults = {
 };
 
 /** @namespace */
-Sketchfab.Feed = {
+SketchfabSDK.Feed = {
 
     /**
      * Get feed stories
@@ -4346,6 +4347,8 @@ Sketchfab.Feed = {
      * @return Promise
      */
     items: function(token, params) {
+
+        console.warn('Feed.items is not a public API. It might break in the future.');
 
         var headers = {};
         if (token) {
@@ -4361,7 +4364,7 @@ Sketchfab.Feed = {
     },
 };
 
-module.exports = Sketchfab.Feed;
+module.exports = SketchfabSDK.Feed;
 
 },{"../config":59,"./API":60,"lodash/object/defaults":34,"lodash/object/keys":35,"lodash/object/pick":37}],63:[function(require,module,exports){
 'use strict';
@@ -4369,10 +4372,10 @@ module.exports = Sketchfab.Feed;
 var API = require('./API');
 var config = require('../config');
 
-var Sketchfab = {};
+var SketchfabSDK = {};
 
 /** @namespace */
-Sketchfab.Model = {
+SketchfabSDK.Model = {
 
     /**
      * Get model by id
@@ -4419,7 +4422,7 @@ Sketchfab.Model = {
 
 };
 
-module.exports = Sketchfab.Model;
+module.exports = SketchfabSDK.Model;
 
 },{"../config":59,"./API":60}],64:[function(require,module,exports){
 'use strict';
@@ -4432,7 +4435,7 @@ var _ = {
 var API = require('./API');
 var config = require('../config');
 
-var Sketchfab = {};
+var SketchfabSDK = {};
 
 var defaults = {
     'count': 24,
@@ -4453,7 +4456,7 @@ var defaults = {
 };
 
 /** @namespace */
-Sketchfab.Models = {
+SketchfabSDK.Models = {
 
     /**
      * Get models by params
@@ -4474,7 +4477,7 @@ Sketchfab.Models = {
      *
      * @return Promise
      */
-    models: function(params) {
+    all: function(params) {
 
         // Fill in default values, remove unknown params
         params = _.pick(_.defaults(params, defaults), _.keys(defaults));
@@ -4488,7 +4491,7 @@ Sketchfab.Models = {
      * @return Promise
      */
     recent: function(offset) {
-        return Sketchfab.Models.models({
+        return SketchfabSDK.Models.all({
             offset: offset
         });
     },
@@ -4500,7 +4503,7 @@ Sketchfab.Models = {
      * @return Promise
      */
     popular: function(offset) {
-        return Sketchfab.Models.models({
+        return SketchfabSDK.Models.all({
             date: 7,
             sort_by: '-viewCount',
             offset: offset
@@ -4513,7 +4516,7 @@ Sketchfab.Models = {
      * @return Promise
      */
     staffpicks: function(offset) {
-        return Sketchfab.Models.models({
+        return SketchfabSDK.Models.all({
             flag: 'staffpicked',
             offset: offset
         });
@@ -4526,7 +4529,7 @@ Sketchfab.Models = {
      * @return Promise
      */
     search: function(query, offset) {
-        return Sketchfab.Models.models({
+        return SketchfabSDK.Models.all({
             search: query,
             offset: offset
         });
@@ -4539,7 +4542,7 @@ Sketchfab.Models = {
      * @return Promise
      */
     byCategory: function(categoryId, offset) {
-        return Sketchfab.Models.models({
+        return SketchfabSDK.Models.all({
             categories: categoryId,
             offset: offset
         });
@@ -4552,7 +4555,7 @@ Sketchfab.Models = {
      * @return Promise
      */
     byTag: function(tag, offset) {
-        return Sketchfab.Models.models({
+        return SketchfabSDK.Models.all({
             tags: tag,
             offset: offset
         });
@@ -4565,14 +4568,14 @@ Sketchfab.Models = {
      * @return Promise
      */
     byUserId: function(userId, offset) {
-        return Sketchfab.Models.models({
+        return SketchfabSDK.Models.all({
             user: userId,
             offset: offset
         });
     }
 };
 
-module.exports = Sketchfab.Models;
+module.exports = SketchfabSDK.Models;
 
 },{"../config":59,"./API":60,"lodash/object/defaults":34,"lodash/object/keys":35,"lodash/object/pick":37}],65:[function(require,module,exports){
 'use strict';
@@ -4594,10 +4597,10 @@ var defaults = {
     'sort_by': '-followerCount' // '-followerCount', '-modelCount'
 };
 
-var Sketchfab = {};
+var SketchfabSDK = {};
 
 /** @namespace */
-Sketchfab.Users = {
+SketchfabSDK.Users = {
 
     /**
      * Get user by OAuth token
@@ -4657,7 +4660,7 @@ Sketchfab.Users = {
      * @return Promise
      */
     byLocation: function(location, offset) {
-        return Sketchfab.Users.all({
+        return SketchfabSDK.Users.all({
             location: location,
             offset: offset
         });
@@ -4670,7 +4673,7 @@ Sketchfab.Users = {
      * @return Promise
      */
     bySkills: function(skills, offset) {
-        return Sketchfab.Users.all({
+        return SketchfabSDK.Users.all({
             skills: skills,
             offset: offset
         });
@@ -4678,7 +4681,7 @@ Sketchfab.Users = {
 
 };
 
-module.exports = Sketchfab.Users;
+module.exports = SketchfabSDK.Users;
 
 },{"../config":59,"./API":60,"lodash/object/defaults":34,"lodash/object/keys":35,"lodash/object/pick":37}],66:[function(require,module,exports){
 function parseQueryString(queryString) {

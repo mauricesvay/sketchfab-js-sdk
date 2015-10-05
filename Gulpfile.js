@@ -5,7 +5,7 @@ var pkg = require('./package.json');
 
 gulp.task('browserify', function() {
     return browserify(['./src/Sketchfab.js'], {
-            'standalone':'Sketchfab',
+            'standalone':'SketchfabSDK',
             'debug': false,
         })
         .bundle()

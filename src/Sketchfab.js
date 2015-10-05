@@ -10,10 +10,10 @@ var Users = require('./libs/Users');
 var Feed = require('./libs/Feed');
 
 /** @namespace */
-var Sketchfab = {};
+var SketchfabSDK = {};
 
-Sketchfab.appId = null;
-Sketchfab.hostname = config.HOSTNAME;
+SketchfabSDK.appId = null;
+SketchfabSDK.hostname = config.HOSTNAME;
 
 /**
  * Initialize SDK. Only required for OAuth2.
@@ -22,9 +22,9 @@ Sketchfab.hostname = config.HOSTNAME;
  * @param {string} params.redirect_uri - OAuth2 Redirect URI
  * @param {string} [params.hostname] - Hostname
  */
-Sketchfab.init = function(params) {
-    Sketchfab.app_id = params.client_id;
-    Sketchfab.redirect_uri = params.redirect_uri;
+SketchfabSDK.init = function(params) {
+    SketchfabSDK.app_id = params.client_id;
+    SketchfabSDK.redirect_uri = params.redirect_uri;
 
     if (params.hostname) {
         config.HOSTNAME = params.hostname;
@@ -32,25 +32,26 @@ Sketchfab.init = function(params) {
 };
 
 /**
- * Login with Sketchfab.
+ * Login with SketchfabSDK.
  * Browsers only.
  * @return Promise
  */
-Sketchfab.connect = function() {
+SketchfabSDK.connect = function() {
 
     return when.promise(function(resolve, reject) {
 
-        if (!Sketchfab.app_id) {
-            reject(new Error('App ID is missing. Call Sketchfab.init with your app ID first.'));
+        if (!SketchfabSDK.app_id) {
+            reject(new Error('App ID is missing. Call SketchfabSDK.init with your app ID first.'));
             return;
         }
 
+        // @TODO: allow users to pass their own state
         var state = +(new Date());
         var authorizeUrl = [
             'https://' + config.HOSTNAME + '/oauth2/authorize/?',
             'state=' + state,
             '&response_type=token',
-            '&client_id=' + Sketchfab.app_id
+            '&client_id=' + SketchfabSDK.app_id
         ].join('');
 
         var loginPopup = window.open(authorizeUrl, 'loginWindow', 'width=640,height=400');
@@ -75,7 +76,7 @@ Sketchfab.connect = function() {
                 }
 
                 // Worked?
-                if (url.indexOf(Sketchfab.redirect_uri) !== -1) {
+                if (url.indexOf(SketchfabSDK.redirect_uri) !== -1) {
                     clearInterval(timer);
 
                     var hash = loginPopup.location.hash;
@@ -97,10 +98,10 @@ Sketchfab.connect = function() {
     });
 };
 
-Sketchfab.Categories = Categories;
-Sketchfab.Models = Models;
-Sketchfab.Model = Model;
-Sketchfab.Users = Users;
-Sketchfab.Feed = Feed;
+SketchfabSDK.Categories = Categories;
+SketchfabSDK.Models = Models;
+SketchfabSDK.Model = Model;
+SketchfabSDK.Users = Users;
+SketchfabSDK.Feed = Feed;
 
-module.exports = Sketchfab;
+module.exports = SketchfabSDK;

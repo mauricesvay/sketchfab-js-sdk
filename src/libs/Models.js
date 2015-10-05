@@ -8,7 +8,7 @@ var _ = {
 var API = require('./API');
 var config = require('../config');
 
-var Sketchfab = {};
+var SketchfabSDK = {};
 
 var defaults = {
     'count': 24,
@@ -29,7 +29,7 @@ var defaults = {
 };
 
 /** @namespace */
-Sketchfab.Models = {
+SketchfabSDK.Models = {
 
     /**
      * Get models by params
@@ -50,7 +50,7 @@ Sketchfab.Models = {
      *
      * @return Promise
      */
-    models: function(params) {
+    all: function(params) {
 
         // Fill in default values, remove unknown params
         params = _.pick(_.defaults(params, defaults), _.keys(defaults));
@@ -64,7 +64,7 @@ Sketchfab.Models = {
      * @return Promise
      */
     recent: function(offset) {
-        return Sketchfab.Models.models({
+        return SketchfabSDK.Models.all({
             offset: offset
         });
     },
@@ -76,7 +76,7 @@ Sketchfab.Models = {
      * @return Promise
      */
     popular: function(offset) {
-        return Sketchfab.Models.models({
+        return SketchfabSDK.Models.all({
             date: 7,
             sort_by: '-viewCount',
             offset: offset
@@ -89,7 +89,7 @@ Sketchfab.Models = {
      * @return Promise
      */
     staffpicks: function(offset) {
-        return Sketchfab.Models.models({
+        return SketchfabSDK.Models.all({
             flag: 'staffpicked',
             offset: offset
         });
@@ -102,7 +102,7 @@ Sketchfab.Models = {
      * @return Promise
      */
     search: function(query, offset) {
-        return Sketchfab.Models.models({
+        return SketchfabSDK.Models.all({
             search: query,
             offset: offset
         });
@@ -115,7 +115,7 @@ Sketchfab.Models = {
      * @return Promise
      */
     byCategory: function(categoryId, offset) {
-        return Sketchfab.Models.models({
+        return SketchfabSDK.Models.all({
             categories: categoryId,
             offset: offset
         });
@@ -128,7 +128,7 @@ Sketchfab.Models = {
      * @return Promise
      */
     byTag: function(tag, offset) {
-        return Sketchfab.Models.models({
+        return SketchfabSDK.Models.all({
             tags: tag,
             offset: offset
         });
@@ -141,11 +141,11 @@ Sketchfab.Models = {
      * @return Promise
      */
     byUserId: function(userId, offset) {
-        return Sketchfab.Models.models({
+        return SketchfabSDK.Models.all({
             user: userId,
             offset: offset
         });
     }
 };
 
-module.exports = Sketchfab.Models;
+module.exports = SketchfabSDK.Models;

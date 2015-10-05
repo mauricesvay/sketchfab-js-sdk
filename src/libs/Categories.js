@@ -3,10 +3,10 @@
 var API = require('./API');
 var config = require('../config');
 
-var Sketchfab = {};
+var SketchfabSDK = {};
 
 /** @namespace */
-Sketchfab.Categories = {
+SketchfabSDK.Categories = {
 
     /**
      * Get categories
@@ -18,4 +18,4 @@ Sketchfab.Categories = {
 
 };
 
-module.exports = Sketchfab.Categories;
+module.exports = SketchfabSDK.Categories;

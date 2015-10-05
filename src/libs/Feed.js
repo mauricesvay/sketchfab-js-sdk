@@ -8,7 +8,7 @@ var _ = {
 var API = require('./API');
 var config = require('../config');
 
-var Sketchfab = {};
+var SketchfabSDK = {};
 
 var defaults = {
     'count': 20,
@@ -16,7 +16,7 @@ var defaults = {
 };
 
 /** @namespace */
-Sketchfab.Feed = {
+SketchfabSDK.Feed = {
 
     /**
      * Get feed stories
@@ -45,4 +45,4 @@ Sketchfab.Feed = {
     },
 };
 
-module.exports = Sketchfab.Feed;
+module.exports = SketchfabSDK.Feed;

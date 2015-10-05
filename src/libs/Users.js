@@ -17,10 +17,10 @@ var defaults = {
     'sort_by': '-followerCount' // '-followerCount', '-modelCount'
 };
 
-var Sketchfab = {};
+var SketchfabSDK = {};
 
 /** @namespace */
-Sketchfab.Users = {
+SketchfabSDK.Users = {
 
     /**
      * Get user by OAuth token
@@ -80,7 +80,7 @@ Sketchfab.Users = {
      * @return Promise
      */
     byLocation: function(location, offset) {
-        return Sketchfab.Users.all({
+        return SketchfabSDK.Users.all({
             location: location,
             offset: offset
         });
@@ -93,7 +93,7 @@ Sketchfab.Users = {
      * @return Promise
      */
     bySkills: function(skills, offset) {
-        return Sketchfab.Users.all({
+        return SketchfabSDK.Users.all({
             skills: skills,
             offset: offset
         });
@@ -101,4 +101,4 @@ Sketchfab.Users = {
 
 };
 
-module.exports = Sketchfab.Users;
+module.exports = SketchfabSDK.Users;
