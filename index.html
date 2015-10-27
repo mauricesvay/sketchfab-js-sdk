@@ -268,7 +268,7 @@ for (name in Users_fns) {
 function Feed_items(token) {
     if (window.OAuth2Grant) {
         document.querySelector('.login-output').innerHTML = '';
-        SketchfabSDK.Feed.items(window.OAuth2Grant.access_token).then(function(response){
+        SketchfabSDK.Feed.all(window.OAuth2Grant.access_token).then(function(response){
             output(JSON.stringify(response, null, 4));
         });
     }

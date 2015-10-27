@@ -4340,15 +4340,15 @@ SketchfabSDK.Feed = {
     /**
      * Get feed stories
      * @param {object} token - OAuth2 access token
-     * @param {object} [params] - Filtering and sorting parameters
+     * @param {object} [params] - Pagination parameters
      * @param {int} [params.count=20] - Number of results
      * @param {int} [params.offset] - Offset for pagination
      *
      * @return Promise
      */
-    items: function(token, params) {
+    all: function(token, params) {
 
-        console.warn('Feed.items is not a public API. It might break in the future.');
+        console.warn('Feed.all is not a public API. It might break in the future.');
 
         var headers = {};
         if (token) {
