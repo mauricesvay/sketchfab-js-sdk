@@ -14,3 +14,7 @@ Build the docs:
 
 * `npm install -g jsdoc`
 * `npm run docs`
+
+Run tests:
+* `npm install -g mocha`
+* `npm test`
