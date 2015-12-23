@@ -12,7 +12,6 @@ var _ = {
 var API = {
 
     get: function(path, params, headers) {
-
         params = _.pick(_.defaults(params, {}), _.identity); // Prune empty params
         headers = _.defaults(headers, {});
         return reqwest({
@@ -20,7 +19,7 @@ var API = {
             url: config.BASE_API_URL.replace('{{HOSTNAME}}', config.HOSTNAME) + path,
             data: params,
             headers: headers,
-            crossOrigin: true
+            crossOrigin: (typeof window !== 'undefined')
         });
     },
 
