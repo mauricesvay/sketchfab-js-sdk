@@ -8,18 +8,24 @@ var _ = {
 var API = require('./API');
 var config = require('../config');
 
-var SketchfabSDK = {};
-
 var defaults = {
     'count': 20,
     'offset': null,
 };
 
-/** @namespace */
-SketchfabSDK.Feed = {
+/**
+ * @namespace
+ * @memberof SketchfabSDK
+ */
+function Feed(sdk) {
+    this.sdk = sdk;
+};
+
+Feed.prototype = {
 
     /**
      * Get feed stories
+     * @memberof SketchfabSDK.Feed#
      * @param {object} token - OAuth2 access token
      * @param {object} [params] - Pagination parameters
      * @param {int} [params.count=20] - Number of results
@@ -45,4 +51,4 @@ SketchfabSDK.Feed = {
     },
 };
 
-module.exports = SketchfabSDK.Feed;
+module.exports = Feed;

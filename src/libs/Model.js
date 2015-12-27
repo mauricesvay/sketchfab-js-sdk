@@ -3,13 +3,19 @@
 var API = require('./API');
 var config = require('../config');
 
-var SketchfabSDK = {};
+/**
+ * @namespace
+ * @memberof SketchfabSDK
+ */
+function Model(sdk) {
+    this.sdk = sdk;
+};
 
-/** @namespace */
-SketchfabSDK.Model = {
+Model.prototype = {
 
     /**
      * Get model by id
+     * @memberof SketchfabSDK.Model#
      * @param {string} id - Model id
      * @return Promise
      */
@@ -19,6 +25,7 @@ SketchfabSDK.Model = {
 
     /**
      * Get annotations for model. This method uses a private API. It might break in the future.
+     * @memberof SketchfabSDK.Model#
      * @param {string} id - Model id
      * @return Promise
      */
@@ -29,6 +36,7 @@ SketchfabSDK.Model = {
 
     /**
      * Get textures for model. This method uses a private API. It might break in the future.
+     * @memberof SketchfabSDK.Model#
      * @param {string} id - Model id
      * @return Promise
      */
@@ -39,6 +47,7 @@ SketchfabSDK.Model = {
 
     /**
      * Get comments for model. This method uses a private API. It might break in the future.
+     * @memberof SketchfabSDK.Model#
      * @param {string} id - Model id
      * @param {int} offset - Pagination offset
      * @return Promise
@@ -53,4 +62,4 @@ SketchfabSDK.Model = {
 
 };
 
-module.exports = SketchfabSDK.Model;
+module.exports = Model;

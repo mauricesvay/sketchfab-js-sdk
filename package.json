@@ -4,7 +4,6 @@
     "description": "Sketchfab JS SDK",
     "main": "src/Sketchfab.js",
     "scripts": {
-        "test": "mocha",
         "docs": "jsdoc -r ./src/ -d ./dist/docs/"
     },
     "author": "Sketchfab",

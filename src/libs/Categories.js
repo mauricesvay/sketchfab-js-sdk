@@ -3,13 +3,19 @@
 var API = require('./API');
 var config = require('../config');
 
-var SketchfabSDK = {};
+/**
+ * @namespace
+ * @memberof SketchfabSDK
+ */
+function Categories(sdk) {
+    this.sdk = sdk;
+};
 
-/** @namespace */
-SketchfabSDK.Categories = {
+Categories.prototype = {
 
     /**
      * Get categories
+     * @memberof SketchfabSDK.Categories#
      * @return Promise
      */
     all: function() {
@@ -18,4 +24,4 @@ SketchfabSDK.Categories = {
 
 };
 
-module.exports = SketchfabSDK.Categories;
+module.exports = Categories;

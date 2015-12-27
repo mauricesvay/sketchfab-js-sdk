@@ -184,6 +184,11 @@ function output(str) {
     document.querySelector('.login-output').innerText = str;
 }
 
+var sketchfabSDK = new SketchfabSDK({
+    client_id: '6gLgJqAV_hVORbU8YAckMEy=RwitobgQs=TTSVwi',
+    redirect_uri: 'http://svay.com/clients/sketchfab/sketchfab-js-sdk/authSuccess.html'
+});
+
 /**
  * Models
  */
@@ -202,7 +207,7 @@ for (name in Models_fns) {
         window[name] = function() {
             var method = name.replace('Models_','');
             output('');
-            SketchfabSDK.Models[method].apply(this, Models_fns[name]).then(function(response){
+            sketchfabSDK.Models[method](Models_fns[name]).then(function(response){
                 output(JSON.stringify(response, null, 4));
             });
         };
@@ -223,7 +228,7 @@ for (name in Model_fns) {
         window[name] = function() {
             var method = name.replace('Model_','');
             output('');
-            SketchfabSDK.Model[method].apply(this, Model_fns[name]).then(function(response){
+            sketchfabSDK.Model[method](Model_fns[name]).then(function(response){
                 output(JSON.stringify(response, null, 4));
             });
         };
@@ -235,7 +240,7 @@ for (name in Model_fns) {
  */
 function Categories_all() {
     document.querySelector('.login-output').innerHTML = '';
-    SketchfabSDK.Categories.all().then(function(response){
+    sketchfabSDK.Categories.all().then(function(response){
         output(JSON.stringify(response, null, 4));
     });
 }
@@ -255,7 +260,7 @@ for (name in Users_fns) {
         window[name] = function() {
             var method = name.replace('Users_','');
             output('');
-            SketchfabSDK.Users[method].apply(this, Users_fns[name]).then(function(response){
+            sketchfabSDK.Users[method](Users_fns[name]).then(function(response){
                 output(JSON.stringify(response, null, 4));
             });
         };
@@ -268,7 +273,7 @@ for (name in Users_fns) {
 function Feed_items(token) {
     if (window.OAuth2Grant) {
         document.querySelector('.login-output').innerHTML = '';
-        SketchfabSDK.Feed.all(window.OAuth2Grant.access_token).then(function(response){
+        sketchfabSDK.Feed.all(window.OAuth2Grant.access_token).then(function(response){
             output(JSON.stringify(response, null, 4));
         });
     }
@@ -279,11 +284,11 @@ function Feed_items(token) {
  */
 function login() {
     // Authenticate with OAuth2
-    SketchfabSDK.connect()
+    sketchfabSDK.connect()
         .then(function(grant){
             // Get user info
             window.OAuth2Grant = grant;
-            return SketchfabSDK.Users.me(grant.access_token);
+            return sketchfabSDK.Users.me(grant.access_token);
         })
         .then(function(response){
             // Log user info
@@ -294,11 +299,6 @@ function login() {
             console.log(error);
         });
 }
-
-SketchfabSDK.init({
-    client_id: '6gLgJqAV_hVORbU8YAckMEy=RwitobgQs=TTSVwi',
-    redirect_uri: 'http://svay.com/clients/sketchfab/sketchfab-js-sdk/authSuccess.html',
-});
 </script>
 </body>
 </html>

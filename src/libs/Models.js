@@ -28,11 +28,19 @@ var defaults = {
     'sort_by': '-createdAt', // '-createdAt', '-viewCount', '-likeCount'
 };
 
-/** @namespace */
-SketchfabSDK.Models = {
+/**
+ * @namespace
+ * @memberof SketchfabSDK
+ */
+function Models(sdk) {
+    this.sdk = sdk;
+};
+
+Models.prototype = {
 
     /**
      * Get models by params
+     * @memberof SketchfabSDK.Models#
      * @param {object} [params] - Filtering and sorting parameters
      * @param {int} [params.count=24] - Number of results
      * @param {int} [params.offset] - Offset for pagination
@@ -60,23 +68,25 @@ SketchfabSDK.Models = {
 
     /**
      * Get recent models
+     * @memberof SketchfabSDK.Models#
      * @param {int} [offset] - Pagination offset
      * @return Promise
      */
     recent: function(offset) {
-        return SketchfabSDK.Models.all({
+        return this.all({
             offset: offset
         });
     },
 
     /**
      * Get popular models.
+     * @memberof SketchfabSDK.Models#
      * Models published during the last 7 days, sorted by views
      * @param {int} [offset] - Pagination offset
      * @return Promise
      */
     popular: function(offset) {
-        return SketchfabSDK.Models.all({
+        return this.all({
             date: 7,
             sort_by: '-viewCount',
             offset: offset
@@ -85,11 +95,12 @@ SketchfabSDK.Models = {
 
     /**
      * Get staffpicked models
+     * @memberof SketchfabSDK.Models#
      * @param {int} [offset] - Pagination offset
      * @return Promise
      */
     staffpicks: function(offset) {
-        return SketchfabSDK.Models.all({
+        return this.all({
             flag: 'staffpicked',
             offset: offset
         });
@@ -97,12 +108,13 @@ SketchfabSDK.Models = {
 
     /**
      * Search for models
+     * @memberof SketchfabSDK.Models#
      * @param {string} query - Search term
      * @param {int} [offset] - Pagination offset
      * @return Promise
      */
     search: function(query, offset) {
-        return SketchfabSDK.Models.all({
+        return this.all({
             search: query,
             offset: offset
         });
@@ -110,12 +122,13 @@ SketchfabSDK.Models = {
 
     /**
      * Get models for category
+     * @memberof SketchfabSDK.Models#
      * @param {string} categoryId - id of category
      * @param {int} [offset] - Pagination offset
      * @return Promise
      */
     byCategory: function(categoryId, offset) {
-        return SketchfabSDK.Models.all({
+        return this.all({
             categories: categoryId,
             offset: offset
         });
@@ -123,12 +136,13 @@ SketchfabSDK.Models = {
 
     /**
      * Get models for tag
+     * @memberof SketchfabSDK.Models#
      * @param {string} tag - Tag slug
      * @param {int} [offset] - Pagination offset
      * @return Promise
      */
     byTag: function(tag, offset) {
-        return SketchfabSDK.Models.all({
+        return this.all({
             tags: tag,
             offset: offset
         });
@@ -136,16 +150,17 @@ SketchfabSDK.Models = {
 
     /**
      * Get models for user
+     * @memberof SketchfabSDK.Models#
      * @param {string} userId - id of user
      * @param {int} [offset] - Pagination offset
      * @return Promise
      */
     byUserId: function(userId, offset) {
-        return SketchfabSDK.Models.all({
+        return this.all({
             user: userId,
             offset: offset
         });
     }
 };
 
-module.exports = SketchfabSDK.Models;
+module.exports = Models;

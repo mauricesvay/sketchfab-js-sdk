@@ -17,13 +17,18 @@ var defaults = {
     'sort_by': '-followerCount' // '-followerCount', '-modelCount'
 };
 
-var SketchfabSDK = {};
+/**
+ * @namespace
+ * @memberof SketchfabSDK
+ */
+function Users(sdk) {
+    this.sdk = sdk;
+};
 
-/** @namespace */
-SketchfabSDK.Users = {
-
+Users.prototype = {
     /**
      * Get user by OAuth token
+     * @memberof SketchfabSDK.Users#
      * @param {string} token - OAuth2 token
      * @return Promise
      */
@@ -37,6 +42,7 @@ SketchfabSDK.Users = {
 
     /**
      * Get users by params
+     * @memberof SketchfabSDK.Users#
      * @param {object} params - Filtering and sorting parameters
      *
      * @param {int} [params.count=24] - Number of results
@@ -50,21 +56,25 @@ SketchfabSDK.Users = {
     all: function(params) {
 
         params = _.pick(_.defaults(params, defaults), _.keys(defaults));
-
         return API.get(config.USERS_ENDPOINT, params);
     },
 
     /**
      * Get user by id
+     * @memberof SketchfabSDK.Users#
      * @param {string} id - User id
      * @return Promise
      */
     byId: function(id) {
+        if (!id) {
+            throw new Error('id parameter is missing');
+        }
         return API.get(config.USERS_ENDPOINT + '/' + id);
     },
 
     /**
      * Get user by username. This method uses a private API. It might break in the future.
+     * @memberof SketchfabSDK.Users#
      * @param {string} username - Username
      * @return Promise
      */
@@ -75,12 +85,13 @@ SketchfabSDK.Users = {
 
     /**
      * Get users by location
+     * @memberof SketchfabSDK.Users#
      * @param {string} location - Location
      * @param {int} offset - Pagination offset
      * @return Promise
      */
     byLocation: function(location, offset) {
-        return SketchfabSDK.Users.all({
+        return this.all({
             location: location,
             offset: offset
         });
@@ -88,17 +99,17 @@ SketchfabSDK.Users = {
 
     /**
      * Get user by skills
+     * @memberof SketchfabSDK.Users#
      * @param {string} skills - Skill
      * @param {int} offset - Pagination offset
      * @return Promise
      */
     bySkills: function(skills, offset) {
-        return SketchfabSDK.Users.all({
+        return this.all({
             skills: skills,
             offset: offset
         });
     }
+}
 
-};
-
-module.exports = SketchfabSDK.Users;
+module.exports = Users;

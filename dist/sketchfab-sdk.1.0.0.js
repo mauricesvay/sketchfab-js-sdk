@@ -1,113 +1,109 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.SketchfabSDK = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var when = require('when');
+var _ = {
+    defaults: require('lodash/object/defaults'),
+};
 
 var config = require('./config');
 var utils = require('./utils');
 
-var Categories = require('./libs/Categories');
-var Models = require('./libs/Models');
-var Model = require('./libs/Model');
-var Users = require('./libs/Users');
-var Feed = require('./libs/Feed');
+var resources = {
+    'Categories': require('./libs/Categories'),
+    'Models': require('./libs/Models'),
+    'Model': require('./libs/Model'),
+    'Users': require('./libs/Users'),
+    'Feed': require('./libs/Feed')
+}
 
 /** @namespace */
-var SketchfabSDK = {};
+function SketchfabSDK( options ) {
+    var defaults = {
+        client_id: null,
+        redirect_uri: null,
+        hostname: config.HOSTNAME
+    };
 
-SketchfabSDK.appId = null;
-SketchfabSDK.hostname = config.HOSTNAME;
+    this.options = _.defaults({}, options, defaults);
+    this._setupResources();
+}
 
-/**
- * Initialize SDK. Only required for OAuth2.
- * @param {Object} params - Initialization parameters
- * @param {string} params.client_id - OAuth2 Client ID
- * @param {string} params.redirect_uri - OAuth2 Redirect URI
- * @param {string} [params.hostname] - Hostname
- */
-SketchfabSDK.init = function(params) {
-    SketchfabSDK.app_id = params.client_id;
-    SketchfabSDK.redirect_uri = params.redirect_uri;
+SketchfabSDK.prototype = {
 
-    if (params.hostname) {
-        config.HOSTNAME = params.hostname;
+    /**
+     * Login with SketchfabSDK.
+     * Browsers only.
+     * @return Promise
+     */
+    connect: function() {
+        return when.promise(function(resolve, reject) {
+            if (!this.options.client_id) {
+                reject(new Error('client_id is missing.'));
+                return;
+            }
+
+            // @TODO: allow users to pass their own state
+            var state = +(new Date());
+            var authorizeUrl = [
+                'https://' + this.options.hostname + '/oauth2/authorize/?',
+                'state=' + state,
+                '&response_type=token',
+                '&client_id=' + this.options.client_id
+            ].join('');
+
+            var loginPopup = window.open(authorizeUrl, 'loginWindow', 'width=640,height=400');
+
+            // Polling new window
+            var timer = setInterval(function() {
+                try {
+                    var url = loginPopup.location.href;
+
+                    // User closed popup
+                    if (url === undefined) {
+                        clearInterval(timer);
+                        reject(new Error('Access denied (User closed popup)'));
+                        return;
+                    }
+
+                    // User canceled or was denied access
+                    if (url.indexOf('?error=access_denied') !== -1) {
+                        clearInterval(timer);
+                        reject(new Error('Access denied (User canceled)'));
+                        return;
+                    }
+
+                    // Worked?
+                    if (url.indexOf(this.options.redirect_uri) !== -1) {
+                        clearInterval(timer);
+
+                        var hash = loginPopup.location.hash;
+                        var grant;
+                        var accessTokenRe = RegExp('access_token=([^&]+)');
+
+                        if (hash.match(accessTokenRe)) {
+                            grant = utils.parseQueryString(hash.substring(1));
+                            resolve(grant);
+                            return;
+                        } else {
+                            reject(new Error('Access denied (missing token)'));
+                            return;
+                        }
+                    }
+                } catch (e) {}
+            }.bind(this), 1000);
+
+        }.bind(this));
+    },
+
+    _setupResources: function() {
+        for (var name in resources) {
+            this[name] = new resources[name](this);
+        }
     }
 };
 
-/**
- * Login with SketchfabSDK.
- * Browsers only.
- * @return Promise
- */
-SketchfabSDK.connect = function() {
-
-    return when.promise(function(resolve, reject) {
-
-        if (!SketchfabSDK.app_id) {
-            reject(new Error('App ID is missing. Call SketchfabSDK.init with your app ID first.'));
-            return;
-        }
-
-        // @TODO: allow users to pass their own state
-        var state = +(new Date());
-        var authorizeUrl = [
-            'https://' + config.HOSTNAME + '/oauth2/authorize/?',
-            'state=' + state,
-            '&response_type=token',
-            '&client_id=' + SketchfabSDK.app_id
-        ].join('');
-
-        var loginPopup = window.open(authorizeUrl, 'loginWindow', 'width=640,height=400');
-
-        // Polling new window
-        var timer = setInterval(function() {
-            try {
-                var url = loginPopup.location.href;
-
-                // User closed popup
-                if (url === undefined) {
-                    clearInterval(timer);
-                    reject(new Error('Access denied (User closed popup)'));
-                    return;
-                }
-
-                // User canceled or was denied access
-                if (url.indexOf('?error=access_denied') !== -1) {
-                    clearInterval(timer);
-                    reject(new Error('Access denied (User canceled)'));
-                    return;
-                }
-
-                // Worked?
-                if (url.indexOf(SketchfabSDK.redirect_uri) !== -1) {
-                    clearInterval(timer);
-
-                    var hash = loginPopup.location.hash;
-                    var grant;
-                    var accessTokenRe = RegExp('access_token=([^&]+)');
-
-                    if (hash.match(accessTokenRe)) {
-                        grant = utils.parseQueryString(hash.substring(1));
-                        resolve(grant);
-                        return;
-                    } else {
-                        reject(new Error('Access denied (missing token)'));
-                        return;
-                    }
-                }
-            } catch (e) {}
-        }, 1000);
-
-    });
-};
-
-SketchfabSDK.Categories = Categories;
-SketchfabSDK.Models = Models;
-SketchfabSDK.Model = Model;
-SketchfabSDK.Users = Users;
-SketchfabSDK.Feed = Feed;
-
 module.exports = SketchfabSDK;
 
-},{"./config":59,"./libs/Categories":61,"./libs/Feed":62,"./libs/Model":63,"./libs/Models":64,"./libs/Users":65,"./utils":66,"when":57}],2:[function(require,module,exports){
+},{"./config":59,"./libs/Categories":61,"./libs/Feed":62,"./libs/Model":63,"./libs/Models":64,"./libs/Users":65,"./utils":66,"lodash/object/defaults":34,"when":57}],2:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -4277,7 +4273,6 @@ var _ = {
 var API = {
 
     get: function(path, params, headers) {
-
         params = _.pick(_.defaults(params, {}), _.identity); // Prune empty params
         headers = _.defaults(headers, {});
         return reqwest({
@@ -4285,7 +4280,7 @@ var API = {
             url: config.BASE_API_URL.replace('{{HOSTNAME}}', config.HOSTNAME) + path,
             data: params,
             headers: headers,
-            crossOrigin: true
+            crossOrigin: (typeof window !== 'undefined')
         });
     },
 
@@ -4299,13 +4294,19 @@ module.exports = API;
 var API = require('./API');
 var config = require('../config');
 
-var SketchfabSDK = {};
+/**
+ * @namespace
+ * @memberof SketchfabSDK
+ */
+function Categories(sdk) {
+    this.sdk = sdk;
+};
 
-/** @namespace */
-SketchfabSDK.Categories = {
+Categories.prototype = {
 
     /**
      * Get categories
+     * @memberof SketchfabSDK.Categories#
      * @return Promise
      */
     all: function() {
@@ -4314,7 +4315,7 @@ SketchfabSDK.Categories = {
 
 };
 
-module.exports = SketchfabSDK.Categories;
+module.exports = Categories;
 
 },{"../config":59,"./API":60}],62:[function(require,module,exports){
 'use strict';
@@ -4327,18 +4328,24 @@ var _ = {
 var API = require('./API');
 var config = require('../config');
 
-var SketchfabSDK = {};
-
 var defaults = {
     'count': 20,
     'offset': null,
 };
 
-/** @namespace */
-SketchfabSDK.Feed = {
+/**
+ * @namespace
+ * @memberof SketchfabSDK
+ */
+function Feed(sdk) {
+    this.sdk = sdk;
+};
+
+Feed.prototype = {
 
     /**
      * Get feed stories
+     * @memberof SketchfabSDK.Feed#
      * @param {object} token - OAuth2 access token
      * @param {object} [params] - Pagination parameters
      * @param {int} [params.count=20] - Number of results
@@ -4364,7 +4371,7 @@ SketchfabSDK.Feed = {
     },
 };
 
-module.exports = SketchfabSDK.Feed;
+module.exports = Feed;
 
 },{"../config":59,"./API":60,"lodash/object/defaults":34,"lodash/object/keys":35,"lodash/object/pick":37}],63:[function(require,module,exports){
 'use strict';
@@ -4372,13 +4379,19 @@ module.exports = SketchfabSDK.Feed;
 var API = require('./API');
 var config = require('../config');
 
-var SketchfabSDK = {};
+/**
+ * @namespace
+ * @memberof SketchfabSDK
+ */
+function Model(sdk) {
+    this.sdk = sdk;
+};
 
-/** @namespace */
-SketchfabSDK.Model = {
+Model.prototype = {
 
     /**
      * Get model by id
+     * @memberof SketchfabSDK.Model#
      * @param {string} id - Model id
      * @return Promise
      */
@@ -4388,6 +4401,7 @@ SketchfabSDK.Model = {
 
     /**
      * Get annotations for model. This method uses a private API. It might break in the future.
+     * @memberof SketchfabSDK.Model#
      * @param {string} id - Model id
      * @return Promise
      */
@@ -4398,6 +4412,7 @@ SketchfabSDK.Model = {
 
     /**
      * Get textures for model. This method uses a private API. It might break in the future.
+     * @memberof SketchfabSDK.Model#
      * @param {string} id - Model id
      * @return Promise
      */
@@ -4408,6 +4423,7 @@ SketchfabSDK.Model = {
 
     /**
      * Get comments for model. This method uses a private API. It might break in the future.
+     * @memberof SketchfabSDK.Model#
      * @param {string} id - Model id
      * @param {int} offset - Pagination offset
      * @return Promise
@@ -4422,7 +4438,7 @@ SketchfabSDK.Model = {
 
 };
 
-module.exports = SketchfabSDK.Model;
+module.exports = Model;
 
 },{"../config":59,"./API":60}],64:[function(require,module,exports){
 'use strict';
@@ -4455,11 +4471,19 @@ var defaults = {
     'sort_by': '-createdAt', // '-createdAt', '-viewCount', '-likeCount'
 };
 
-/** @namespace */
-SketchfabSDK.Models = {
+/**
+ * @namespace
+ * @memberof SketchfabSDK
+ */
+function Models(sdk) {
+    this.sdk = sdk;
+};
+
+Models.prototype = {
 
     /**
      * Get models by params
+     * @memberof SketchfabSDK.Models#
      * @param {object} [params] - Filtering and sorting parameters
      * @param {int} [params.count=24] - Number of results
      * @param {int} [params.offset] - Offset for pagination
@@ -4487,23 +4511,25 @@ SketchfabSDK.Models = {
 
     /**
      * Get recent models
+     * @memberof SketchfabSDK.Models#
      * @param {int} [offset] - Pagination offset
      * @return Promise
      */
     recent: function(offset) {
-        return SketchfabSDK.Models.all({
+        return this.all({
             offset: offset
         });
     },
 
     /**
      * Get popular models.
+     * @memberof SketchfabSDK.Models#
      * Models published during the last 7 days, sorted by views
      * @param {int} [offset] - Pagination offset
      * @return Promise
      */
     popular: function(offset) {
-        return SketchfabSDK.Models.all({
+        return this.all({
             date: 7,
             sort_by: '-viewCount',
             offset: offset
@@ -4512,11 +4538,12 @@ SketchfabSDK.Models = {
 
     /**
      * Get staffpicked models
+     * @memberof SketchfabSDK.Models#
      * @param {int} [offset] - Pagination offset
      * @return Promise
      */
     staffpicks: function(offset) {
-        return SketchfabSDK.Models.all({
+        return this.all({
             flag: 'staffpicked',
             offset: offset
         });
@@ -4524,12 +4551,13 @@ SketchfabSDK.Models = {
 
     /**
      * Search for models
+     * @memberof SketchfabSDK.Models#
      * @param {string} query - Search term
      * @param {int} [offset] - Pagination offset
      * @return Promise
      */
     search: function(query, offset) {
-        return SketchfabSDK.Models.all({
+        return this.all({
             search: query,
             offset: offset
         });
@@ -4537,12 +4565,13 @@ SketchfabSDK.Models = {
 
     /**
      * Get models for category
+     * @memberof SketchfabSDK.Models#
      * @param {string} categoryId - id of category
      * @param {int} [offset] - Pagination offset
      * @return Promise
      */
     byCategory: function(categoryId, offset) {
-        return SketchfabSDK.Models.all({
+        return this.all({
             categories: categoryId,
             offset: offset
         });
@@ -4550,12 +4579,13 @@ SketchfabSDK.Models = {
 
     /**
      * Get models for tag
+     * @memberof SketchfabSDK.Models#
      * @param {string} tag - Tag slug
      * @param {int} [offset] - Pagination offset
      * @return Promise
      */
     byTag: function(tag, offset) {
-        return SketchfabSDK.Models.all({
+        return this.all({
             tags: tag,
             offset: offset
         });
@@ -4563,19 +4593,20 @@ SketchfabSDK.Models = {
 
     /**
      * Get models for user
+     * @memberof SketchfabSDK.Models#
      * @param {string} userId - id of user
      * @param {int} [offset] - Pagination offset
      * @return Promise
      */
     byUserId: function(userId, offset) {
-        return SketchfabSDK.Models.all({
+        return this.all({
             user: userId,
             offset: offset
         });
     }
 };
 
-module.exports = SketchfabSDK.Models;
+module.exports = Models;
 
 },{"../config":59,"./API":60,"lodash/object/defaults":34,"lodash/object/keys":35,"lodash/object/pick":37}],65:[function(require,module,exports){
 'use strict';
@@ -4597,13 +4628,18 @@ var defaults = {
     'sort_by': '-followerCount' // '-followerCount', '-modelCount'
 };
 
-var SketchfabSDK = {};
+/**
+ * @namespace
+ * @memberof SketchfabSDK
+ */
+function Users(sdk) {
+    this.sdk = sdk;
+};
 
-/** @namespace */
-SketchfabSDK.Users = {
-
+Users.prototype = {
     /**
      * Get user by OAuth token
+     * @memberof SketchfabSDK.Users#
      * @param {string} token - OAuth2 token
      * @return Promise
      */
@@ -4617,6 +4653,7 @@ SketchfabSDK.Users = {
 
     /**
      * Get users by params
+     * @memberof SketchfabSDK.Users#
      * @param {object} params - Filtering and sorting parameters
      *
      * @param {int} [params.count=24] - Number of results
@@ -4630,21 +4667,25 @@ SketchfabSDK.Users = {
     all: function(params) {
 
         params = _.pick(_.defaults(params, defaults), _.keys(defaults));
-
         return API.get(config.USERS_ENDPOINT, params);
     },
 
     /**
      * Get user by id
+     * @memberof SketchfabSDK.Users#
      * @param {string} id - User id
      * @return Promise
      */
     byId: function(id) {
+        if (!id) {
+            throw new Error('id parameter is missing');
+        }
         return API.get(config.USERS_ENDPOINT + '/' + id);
     },
 
     /**
      * Get user by username. This method uses a private API. It might break in the future.
+     * @memberof SketchfabSDK.Users#
      * @param {string} username - Username
      * @return Promise
      */
@@ -4655,12 +4696,13 @@ SketchfabSDK.Users = {
 
     /**
      * Get users by location
+     * @memberof SketchfabSDK.Users#
      * @param {string} location - Location
      * @param {int} offset - Pagination offset
      * @return Promise
      */
     byLocation: function(location, offset) {
-        return SketchfabSDK.Users.all({
+        return this.all({
             location: location,
             offset: offset
         });
@@ -4668,20 +4710,20 @@ SketchfabSDK.Users = {
 
     /**
      * Get user by skills
+     * @memberof SketchfabSDK.Users#
      * @param {string} skills - Skill
      * @param {int} offset - Pagination offset
      * @return Promise
      */
     bySkills: function(skills, offset) {
-        return SketchfabSDK.Users.all({
+        return this.all({
             skills: skills,
             offset: offset
         });
     }
+}
 
-};
-
-module.exports = SketchfabSDK.Users;
+module.exports = Users;
 
 },{"../config":59,"./API":60,"lodash/object/defaults":34,"lodash/object/keys":35,"lodash/object/pick":37}],66:[function(require,module,exports){
 function parseQueryString(queryString) {
