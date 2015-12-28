@@ -5,7 +5,7 @@
     <title>Sketchfab JS SDK</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <script type="text/javascript" src="dist/sketchfab-sdk.1.0.0.js"></script>
+    <script type="text/javascript" src="dist/sketchfab-sdk.2.0.0.js"></script>
     <style>
     .page {
         position: absolute;
@@ -39,99 +39,99 @@
         <h2>Models</h2>
         <ul>
             <li>
-                <code>SketchfabSDK.Models.search(query, [offset])</code>
-                <button onclick="Models_search()">SketchfabSDK.Models.search('diorama')</button>
+                <code>sketchfabSDK.Models.search(query, [offset])</code>
+                <button onclick="Models_search()">sketchfabSDK.Models.search('diorama')</button>
             </li>
             <li>
-                <code>SketchfabSDK.Models.all([params])</code>
-                <button onclick="Models_all()">SketchfabSDK.Models.all()</button>
+                <code>sketchfabSDK.Models.all([params])</code>
+                <button onclick="Models_all()">sketchfabSDK.Models.all()</button>
             </li>
             <li>
-                <code>SketchfabSDK.Models.recent([offset])</code>
-                <button onclick="Models_recent()">SketchfabSDK.Models.recent()</button>
+                <code>sketchfabSDK.Models.recent([offset])</code>
+                <button onclick="Models_recent()">sketchfabSDK.Models.recent()</button>
             </li>
             <li>
-                <code>SketchfabSDK.Models.popular([offset])</code>
-                <button onclick="Models_popular()">SketchfabSDK.Models.popular()</button>
+                <code>sketchfabSDK.Models.popular([offset])</code>
+                <button onclick="Models_popular()">sketchfabSDK.Models.popular()</button>
             </li>
             <li>
-                <code>SketchfabSDK.Models.staffpicks([offset])</code>
-                <button onclick="Models_staffpicks()">SketchfabSDK.Models.staffpicks()</button>
+                <code>sketchfabSDK.Models.staffpicks([offset])</code>
+                <button onclick="Models_staffpicks()">sketchfabSDK.Models.staffpicks()</button>
             </li>
             <li>
-                <code>SketchfabSDK.Models.byCategory(categoryId, [offset])</code>
-                <button onclick="Models_byCategory()">SketchfabSDK.Models.byCategory('c92452986e70422ca2c6552835a89882')</button>
+                <code>sketchfabSDK.Models.byCategory(categoryId, [offset])</code>
+                <button onclick="Models_byCategory()">sketchfabSDK.Models.byCategory('c92452986e70422ca2c6552835a89882')</button>
             </li>
             <li>
-                <code>SketchfabSDK.Models.byTag(tag, [offset])</code>
-                <button onclick="Models_byTag()">SketchfabSDK.Models.byTag('substance')</button>
+                <code>sketchfabSDK.Models.byTag(tag, [offset])</code>
+                <button onclick="Models_byTag()">sketchfabSDK.Models.byTag('substance')</button>
             </li>
             <li>
-                <code>SketchfabSDK.Models.byUserId(id)</code>
-                <button onclick="Models_byUserId()">SketchfabSDK.Models.byUserId(116)</button>
+                <code>sketchfabSDK.Models.byUserId(id)</code>
+                <button onclick="Models_byUserId()">sketchfabSDK.Models.byUserId(116)</button>
             </li>
         </ul>
 
         <h2>Model</h2>
         <ul>
             <li>
-                <code>SketchfabSDK.Model.byId(id)</code>
-                <button onclick="Model_byId()">SketchfabSDK.Model.byId('7w7pAfrCfjovwykkEeRFLGw5SXS')</button>
+                <code>sketchfabSDK.Model.byId(id)</code>
+                <button onclick="Model_byId()">sketchfabSDK.Model.byId('7w7pAfrCfjovwykkEeRFLGw5SXS')</button>
             </li>
             <li>
-                <code>SketchfabSDK.Model.annotations(id)</code>
-                <button onclick="Model_annotations()">SketchfabSDK.Model.annotations('387889bbe73648c38589a3fffd1f876c')</button>
+                <code>sketchfabSDK.Model.annotations(id)</code>
+                <button onclick="Model_annotations()">sketchfabSDK.Model.annotations('387889bbe73648c38589a3fffd1f876c')</button>
             </li>
             <li>
-                <code>SketchfabSDK.Model.textures(id)</code>
-                <button onclick="Model_textures()">SketchfabSDK.Model.textures('387889bbe73648c38589a3fffd1f876c')</button>
+                <code>sketchfabSDK.Model.textures(id)</code>
+                <button onclick="Model_textures()">sketchfabSDK.Model.textures('387889bbe73648c38589a3fffd1f876c')</button>
             </li>
             <li>
-                <code>SketchfabSDK.Model.comments(id)</code>
-                <button onclick="Model_comments()">SketchfabSDK.Model.comments('387889bbe73648c38589a3fffd1f876c')</button>
+                <code>sketchfabSDK.Model.comments(id)</code>
+                <button onclick="Model_comments()">sketchfabSDK.Model.comments('387889bbe73648c38589a3fffd1f876c')</button>
             </li>
         </ul>
 
         <h2>Categories</h2>
         <ul>
             <li>
-                <code>SketchfabSDK.Categories.all()</code>
-                <button onclick="Categories_all()">SketchfabSDK.Categories.all()</button>
+                <code>sketchfabSDK.Categories.all()</code>
+                <button onclick="Categories_all()">sketchfabSDK.Categories.all()</button>
             </li>
         </ul>
 
         <h2>Users</h2>
         <ul>
             <li>
-                <code>SketchfabSDK.Users.me(token)</code> See Authentication
+                <code>sketchfabSDK.Users.me(token)</code> See Authentication
             </li>
             <li>
-                <code>SketchfabSDK.Users.all([params])</code>
-                <button onclick="Users_all()">SketchfabSDK.Users.all()</button>
+                <code>sketchfabSDK.Users.all([params])</code>
+                <button onclick="Users_all()">sketchfabSDK.Users.all()</button>
             </li>
             <li>
-                <code>SketchfabSDK.Users.byId(id)</code>
-                <button onclick="Users_byId()">SketchfabSDK.Users.byId(116)</button>
+                <code>sketchfabSDK.Users.byId(id)</code>
+                <button onclick="Users_byId()">sketchfabSDK.Users.byId(116)</button>
             </li>
             <li>
-                <code>SketchfabSDK.Users.byUsername(username)</code>
-                <button onclick="Users_byUsername()">SketchfabSDK.Users.byUsername('mestaty')</button>
+                <code>sketchfabSDK.Users.byUsername(username)</code>
+                <button onclick="Users_byUsername()">sketchfabSDK.Users.byUsername('mestaty')</button>
             </li>
             <li>
-                <code>SketchfabSDK.Users.byLocation(location, [offset])</code>
-                <button onclick="Users_byLocation()">SketchfabSDK.Users.byLocation('Paris')</button>
+                <code>sketchfabSDK.Users.byLocation(location, [offset])</code>
+                <button onclick="Users_byLocation()">sketchfabSDK.Users.byLocation('Paris')</button>
             </li>
             <li>
-                <code>SketchfabSDK.Users.bySkills(skills, [offset])</code>
-                <button onclick="Users_bySkills()">SketchfabSDK.Users.bySkills('Blender')</button>
+                <code>sketchfabSDK.Users.bySkills(skills, [offset])</code>
+                <button onclick="Users_bySkills()">sketchfabSDK.Users.bySkills('Blender')</button>
             </li>
         </ul>
 
         <h2>Feed</h2>
         <ul>
             <li>
-                <code>SketchfabSDK.Feed.items(token, [params])</code>
-                <button onclick="Feed_items()">SketchfabSDK.Feed.items(token)</button>
+                <code>sketchfabSDK.Feed.items(token, [params])</code>
+                <button onclick="Feed_items()">sketchfabSDK.Feed.items(token)</button>
             </li>
         </ul>
 
@@ -142,17 +142,17 @@
             </div>
         </div>
         <pre>
-SketchfabSDK.init({
+var sketchfabSDK = new SketchfabSDK({
     client_id: '6gLgJqAV_hVORbU8YAckMEy=RwitobgQs=TTSVwi',
-    redirect_uri: 'http://svay.com/clients/sketchfab/sketchfab-js-sdk/authSuccess.html',
+    redirect_uri: 'http://svay.com/clients/sketchfab/sketchfab-js-sdk/authSuccess.html'
 });
 
 function login() {
     // Authenticate with OAuth2
-    SketchfabSDK.connect()
+    sketchfabSDK.connect()
         .then(function(grant){
             // Get user info
-            return SketchfabSDK.Users.me(grant.access_token);
+            return sketchfabSDK.Users.me(grant.access_token);
         })
         .then(function(response){
             // Log user info
