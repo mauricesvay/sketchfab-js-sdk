@@ -55,8 +55,8 @@ Users.prototype = {
      */
     all: function(params) {
 
-        params = _.pick(_.defaults(params, defaults), _.keys(defaults));
-        return API.get(config.USERS_ENDPOINT, params);
+        var queryParams = _.pick(_.defaults(params, defaults), _.keys(defaults));
+        return API.get(config.USERS_ENDPOINT, queryParams);
     },
 
     /**

@@ -61,9 +61,9 @@ Models.prototype = {
     all: function(params) {
 
         // Fill in default values, remove unknown params
-        params = _.pick(_.defaults(params, defaults), _.keys(defaults));
+        var queryParams = _.pick(_.defaults(params, defaults), _.keys(defaults));
 
-        return API.get(config.MODELS_ENDPOINT, params);
+        return API.get(config.MODELS_ENDPOINT, queryParams);
     },
 
     /**
