@@ -45,9 +45,9 @@ Feed.prototype = {
         }
 
         // Fill in default values, remove unknown params
-        params = _.pick(_.defaults(params, defaults), _.keys(defaults));
+        var queryParams = _.pick(_.defaults(params, defaults), _.keys(defaults));
 
-        return API.get(config.FEED_ENDPOINT, params, headers);
+        return API.get(config.FEED_ENDPOINT, queryParams, headers);
     },
 };
 

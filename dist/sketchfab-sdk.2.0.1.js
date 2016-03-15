@@ -4272,12 +4272,12 @@ var _ = {
 var API = {
 
     get: function(path, params, headers) {
-        params = _.pick(_.defaults(params, {}), _.identity); // Prune empty params
+        var queryParams = _.pick(_.defaults(params, {}), _.identity); // Prune empty params
         headers = _.defaults(headers, {});
         return reqwest({
             method: 'get',
             url: config.BASE_API_URL.replace('{{HOSTNAME}}', config.HOSTNAME) + path,
-            data: params,
+            data: queryParams,
             headers: headers,
             crossOrigin: (typeof window !== 'undefined')
         });
@@ -4364,9 +4364,9 @@ Feed.prototype = {
         }
 
         // Fill in default values, remove unknown params
-        params = _.pick(_.defaults(params, defaults), _.keys(defaults));
+        var queryParams = _.pick(_.defaults(params, defaults), _.keys(defaults));
 
-        return API.get(config.FEED_ENDPOINT, params, headers);
+        return API.get(config.FEED_ENDPOINT, queryParams, headers);
     },
 };
 
@@ -4503,9 +4503,9 @@ Models.prototype = {
     all: function(params) {
 
         // Fill in default values, remove unknown params
-        params = _.pick(_.defaults(params, defaults), _.keys(defaults));
+        var queryParams = _.pick(_.defaults(params, defaults), _.keys(defaults));
 
-        return API.get(config.MODELS_ENDPOINT, params);
+        return API.get(config.MODELS_ENDPOINT, queryParams);
     },
 
     /**
@@ -4665,8 +4665,8 @@ Users.prototype = {
      */
     all: function(params) {
 
-        params = _.pick(_.defaults(params, defaults), _.keys(defaults));
-        return API.get(config.USERS_ENDPOINT, params);
+        var queryParams = _.pick(_.defaults(params, defaults), _.keys(defaults));
+        return API.get(config.USERS_ENDPOINT, queryParams);
     },
 
     /**
