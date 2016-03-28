@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: libs/Feed.js</title>
+    <title>JSDoc: Source: libs/Collections.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: libs/Feed.js</h1>
+    <h1 class="page-title">Source: libs/Collections.js</h1>
 
     
 
@@ -30,56 +30,52 @@
 
 var _ = {
     pick: require('lodash/object/pick'),
-    defaults: require('lodash/object/defaults'),
+    extend: require('lodash/object/extend'),
     keys: require('lodash/object/keys')
 };
 var API = require('./API');
 var config = require('../config');
 
 var defaults = {
-    'count': 20,
+    'count': 24,
     'offset': null,
+    'sort_by': '-subscriberCount',
+    'user': null,
 };
 
 /**
  * @namespace
  * @memberof SketchfabSDK
  */
-function Feed(sdk) {
+function Collections(sdk) {
     this.sdk = sdk;
 };
 
-Feed.prototype = {
+Collections.prototype = {
 
     /**
-     * Get feed stories
-     * @memberof SketchfabSDK.Feed#
-     * @param {object} token - OAuth2 access token
-     * @param {object} [params] - Pagination parameters
-     * @param {int} [params.count=20] - Number of results
+     * Get models by params
+     * @memberof SketchfabSDK.Collections#
+     * @param {object} [params] - Filtering and sorting parameters
+     * @param {int} [params.count=24] - Number of results
      * @param {int} [params.offset] - Offset for pagination
+     * @param {string} [params.sort_by='-subscriberCount'] - Sorting field ['-subscriberCount', '-createdAt']
+     *
+     * @param {string} [params.user] - User id to get collections from
      *
      * @return Promise
      */
-    all: function(token, params) {
+    all: function(params) {
 
-        console.warn('Feed.all is not a public API. It might break in the future.');
-
-        var headers = {};
-        if (token) {
-            headers['Authorization'] = 'Bearer ' + token;
-        } else {
-            throw new Error('OAuth2 access token is missing');
-        }
-
-        // Fill in default values, remove unknown params
-        var queryParams = _.pick(_.defaults(params, defaults), _.keys(defaults));
-
-        return API.get(config.FEED_ENDPOINT, queryParams, headers);
+        // Fill in default values
+        var queryParams = _.extend({}, defaults, params);
+        // Remove unknown params
+        queryParams = _.pick(queryParams, _.keys(defaults));
+        return API.get(config.COLLECTIONS_ENDPOINT, queryParams);
     },
-};
+}
 
-module.exports = Feed;
+module.exports = Collections;
 </code></pre>
         </article>
     </section>

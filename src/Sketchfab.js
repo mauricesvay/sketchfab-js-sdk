@@ -8,6 +8,7 @@ var utils = require('./utils');
 
 var resources = {
     'Categories': require('./libs/Categories'),
+    'Collections': require('./libs/Collections'),
     'Models': require('./libs/Models'),
     'Model': require('./libs/Model'),
     'Users': require('./libs/Users'),

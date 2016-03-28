@@ -23,7 +23,7 @@ var defaults = {
     'face_count': null,
     'liked_by': null, // user id
     'user': null, // user id
-    'folder': null, // folder id
+    'collection': null, // collection id
 
     'sort_by': '-createdAt', // '-createdAt', '-viewCount', '-likeCount'
 };
@@ -54,7 +54,7 @@ Models.prototype = {
      * @param {int} [params.face_count] - Filter on the number of faces
      * @param {string} [params.liked_by] - User id to get likes from
      * @param {string} [params.user] - User id to get models from
-     * @param {string} [params.folder] - Folder id to get models from
+     * @param {string} [params.collection] - Collection id to get models from
      *
      * @return Promise
      */

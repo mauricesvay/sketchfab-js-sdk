@@ -9,6 +9,7 @@ var utils = require('./utils');
 
 var resources = {
     'Categories': require('./libs/Categories'),
+    'Collections': require('./libs/Collections'),
     'Models': require('./libs/Models'),
     'Model': require('./libs/Model'),
     'Users': require('./libs/Users'),
@@ -103,7 +104,7 @@ SketchfabSDK.prototype = {
 
 module.exports = SketchfabSDK;
 
-},{"./config":59,"./libs/Categories":61,"./libs/Feed":62,"./libs/Model":63,"./libs/Models":64,"./libs/Users":65,"./utils":66,"lodash/object/defaults":35,"when":58}],2:[function(require,module,exports){
+},{"./config":60,"./libs/Categories":62,"./libs/Collections":63,"./libs/Feed":64,"./libs/Model":65,"./libs/Models":66,"./libs/Users":67,"./utils":68,"lodash/object/defaults":35,"when":59}],2:[function(require,module,exports){
 
 },{}],3:[function(require,module,exports){
 // shim for using process in browser
@@ -296,7 +297,7 @@ function assignWith(object, source, customizer) {
 
 module.exports = assignWith;
 
-},{"../object/keys":36}],8:[function(require,module,exports){
+},{"../object/keys":37}],8:[function(require,module,exports){
 var baseCopy = require('./baseCopy'),
     keys = require('../object/keys');
 
@@ -317,7 +318,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"../object/keys":36,"./baseCopy":9}],9:[function(require,module,exports){
+},{"../object/keys":37,"./baseCopy":9}],9:[function(require,module,exports){
 /**
  * Copies properties of `source` to `object`.
  *
@@ -423,7 +424,7 @@ function baseForIn(object, iteratee) {
 
 module.exports = baseForIn;
 
-},{"../object/keysIn":37,"./baseFor":11}],13:[function(require,module,exports){
+},{"../object/keysIn":38,"./baseFor":11}],13:[function(require,module,exports){
 /**
  * The base implementation of `_.property` without support for deep paths.
  *
@@ -480,7 +481,7 @@ function bindCallback(func, thisArg, argCount) {
 
 module.exports = bindCallback;
 
-},{"../utility/identity":39}],15:[function(require,module,exports){
+},{"../utility/identity":40}],15:[function(require,module,exports){
 var bindCallback = require('./bindCallback'),
     isIterateeCall = require('./isIterateeCall'),
     restParam = require('../function/restParam');
@@ -817,7 +818,7 @@ function shimKeys(object) {
 
 module.exports = shimKeys;
 
-},{"../lang/isArguments":29,"../lang/isArray":30,"../object/keysIn":37,"./isIndex":21,"./isLength":23}],28:[function(require,module,exports){
+},{"../lang/isArguments":29,"../lang/isArray":30,"../object/keysIn":38,"./isIndex":21,"./isLength":23}],28:[function(require,module,exports){
 var isObject = require('../lang/isObject');
 
 /**
@@ -1104,6 +1105,9 @@ var defaults = createDefaults(assign, assignDefaults);
 module.exports = defaults;
 
 },{"../internal/assignDefaults":6,"../internal/createDefaults":17,"./assign":34}],36:[function(require,module,exports){
+module.exports = require('./assign');
+
+},{"./assign":34}],37:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isArrayLike = require('../internal/isArrayLike'),
     isObject = require('../lang/isObject'),
@@ -1150,7 +1154,7 @@ var keys = !nativeKeys ? shimKeys : function(object) {
 
 module.exports = keys;
 
-},{"../internal/getNative":19,"../internal/isArrayLike":20,"../internal/shimKeys":27,"../lang/isObject":33}],37:[function(require,module,exports){
+},{"../internal/getNative":19,"../internal/isArrayLike":20,"../internal/shimKeys":27,"../lang/isObject":33}],38:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('../internal/isIndex'),
@@ -1216,7 +1220,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"../internal/isIndex":21,"../internal/isLength":23,"../lang/isArguments":29,"../lang/isArray":30,"../lang/isObject":33}],38:[function(require,module,exports){
+},{"../internal/isIndex":21,"../internal/isLength":23,"../lang/isArguments":29,"../lang/isArray":30,"../lang/isObject":33}],39:[function(require,module,exports){
 var baseFlatten = require('../internal/baseFlatten'),
     bindCallback = require('../internal/bindCallback'),
     pickByArray = require('../internal/pickByArray'),
@@ -1260,7 +1264,7 @@ var pick = restParam(function(object, props) {
 
 module.exports = pick;
 
-},{"../function/restParam":4,"../internal/baseFlatten":10,"../internal/bindCallback":14,"../internal/pickByArray":25,"../internal/pickByCallback":26}],39:[function(require,module,exports){
+},{"../function/restParam":4,"../internal/baseFlatten":10,"../internal/bindCallback":14,"../internal/pickByArray":25,"../internal/pickByCallback":26}],40:[function(require,module,exports){
 /**
  * This method returns the first argument provided to it.
  *
@@ -1282,7 +1286,7 @@ function identity(value) {
 
 module.exports = identity;
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 /*!
   * Reqwest! A general purpose XHR connection manager
   * license MIT (c) Dustin Diaz 2015
@@ -1914,7 +1918,7 @@ module.exports = identity;
   return reqwest
 });
 
-},{"xhr2":2}],41:[function(require,module,exports){
+},{"xhr2":2}],42:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -1933,7 +1937,7 @@ define(function (require) {
 });
 })(typeof define === 'function' && define.amd ? define : function (factory) { module.exports = factory(require); });
 
-},{"./Scheduler":42,"./env":54,"./makePromise":56}],42:[function(require,module,exports){
+},{"./Scheduler":43,"./env":55,"./makePromise":57}],43:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -2015,7 +2019,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -2043,7 +2047,7 @@ define(function() {
 	return TimeoutError;
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -2100,7 +2104,7 @@ define(function() {
 
 
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -2391,7 +2395,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../apply":44,"../state":57}],46:[function(require,module,exports){
+},{"../apply":45,"../state":58}],47:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -2553,7 +2557,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -2582,7 +2586,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],48:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -2604,7 +2608,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../state":57}],49:[function(require,module,exports){
+},{"../state":58}],50:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -2671,7 +2675,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],50:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -2697,7 +2701,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -2777,7 +2781,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../TimeoutError":43,"../env":54}],52:[function(require,module,exports){
+},{"../TimeoutError":44,"../env":55}],53:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -2865,7 +2869,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../env":54,"../format":55}],53:[function(require,module,exports){
+},{"../env":55,"../format":56}],54:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -2905,7 +2909,7 @@ define(function() {
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
 
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 (function (process){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
@@ -2982,7 +2986,7 @@ define(function(require) {
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
 }).call(this,require('_process'))
-},{"_process":3}],55:[function(require,module,exports){
+},{"_process":3}],56:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -3040,7 +3044,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],56:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 (function (process){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
@@ -3971,7 +3975,7 @@ define(function() {
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
 }).call(this,require('_process'))
-},{"_process":3}],57:[function(require,module,exports){
+},{"_process":3}],58:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -4008,7 +4012,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 
 /**
@@ -4238,7 +4242,7 @@ define(function (require) {
 });
 })(typeof define === 'function' && define.amd ? define : function (factory) { module.exports = factory(require); });
 
-},{"./lib/Promise":41,"./lib/TimeoutError":43,"./lib/apply":44,"./lib/decorators/array":45,"./lib/decorators/flow":46,"./lib/decorators/fold":47,"./lib/decorators/inspect":48,"./lib/decorators/iterate":49,"./lib/decorators/progress":50,"./lib/decorators/timed":51,"./lib/decorators/unhandledRejection":52,"./lib/decorators/with":53}],59:[function(require,module,exports){
+},{"./lib/Promise":42,"./lib/TimeoutError":44,"./lib/apply":45,"./lib/decorators/array":46,"./lib/decorators/flow":47,"./lib/decorators/fold":48,"./lib/decorators/inspect":49,"./lib/decorators/iterate":50,"./lib/decorators/progress":51,"./lib/decorators/timed":52,"./lib/decorators/unhandledRejection":53,"./lib/decorators/with":54}],60:[function(require,module,exports){
 var CONFIG = {
     HOSTNAME: 'sketchfab.com',
 
@@ -4249,15 +4253,16 @@ var CONFIG = {
     MODEL_URL: '/models/{uid}',
 
     CATEGORIES_ENDPOINT: '/v2/categories',
+    COLLECTIONS_ENDPOINT: '/i/collections',
     COMMENTS_ENDPOINT: '/i/comments',
     MODELS_ENDPOINT: '/v2/models',
     USERS_ENDPOINT: '/v2/users',
-    FEED_ENDPOINT: '/i/feeds'
+    FEED_ENDPOINT: '/i/feeds',
 };
 
 module.exports = CONFIG;
 
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 'use strict';
 
 var reqwest = require('reqwest');
@@ -4287,7 +4292,7 @@ var API = {
 
 module.exports = API;
 
-},{"../config":59,"lodash/object/defaults":35,"lodash/object/pick":38,"lodash/utility/identity":39,"reqwest":40}],61:[function(require,module,exports){
+},{"../config":60,"lodash/object/defaults":35,"lodash/object/pick":39,"lodash/utility/identity":40,"reqwest":41}],62:[function(require,module,exports){
 'use strict';
 
 var API = require('./API');
@@ -4316,7 +4321,59 @@ Categories.prototype = {
 
 module.exports = Categories;
 
-},{"../config":59,"./API":60}],62:[function(require,module,exports){
+},{"../config":60,"./API":61}],63:[function(require,module,exports){
+'use strict';
+
+var _ = {
+    pick: require('lodash/object/pick'),
+    extend: require('lodash/object/extend'),
+    keys: require('lodash/object/keys')
+};
+var API = require('./API');
+var config = require('../config');
+
+var defaults = {
+    'count': 24,
+    'offset': null,
+    'sort_by': '-subscriberCount',
+    'user': null,
+};
+
+/**
+ * @namespace
+ * @memberof SketchfabSDK
+ */
+function Collections(sdk) {
+    this.sdk = sdk;
+};
+
+Collections.prototype = {
+
+    /**
+     * Get models by params
+     * @memberof SketchfabSDK.Collections#
+     * @param {object} [params] - Filtering and sorting parameters
+     * @param {int} [params.count=24] - Number of results
+     * @param {int} [params.offset] - Offset for pagination
+     * @param {string} [params.sort_by='-subscriberCount'] - Sorting field ['-subscriberCount', '-createdAt']
+     *
+     * @param {string} [params.user] - User id to get collections from
+     *
+     * @return Promise
+     */
+    all: function(params) {
+
+        // Fill in default values
+        var queryParams = _.extend({}, defaults, params);
+        // Remove unknown params
+        queryParams = _.pick(queryParams, _.keys(defaults));
+        return API.get(config.COLLECTIONS_ENDPOINT, queryParams);
+    },
+}
+
+module.exports = Collections;
+
+},{"../config":60,"./API":61,"lodash/object/extend":36,"lodash/object/keys":37,"lodash/object/pick":39}],64:[function(require,module,exports){
 'use strict';
 
 var _ = {
@@ -4372,7 +4429,7 @@ Feed.prototype = {
 
 module.exports = Feed;
 
-},{"../config":59,"./API":60,"lodash/object/defaults":35,"lodash/object/keys":36,"lodash/object/pick":38}],63:[function(require,module,exports){
+},{"../config":60,"./API":61,"lodash/object/defaults":35,"lodash/object/keys":37,"lodash/object/pick":39}],65:[function(require,module,exports){
 'use strict';
 
 var API = require('./API');
@@ -4428,7 +4485,7 @@ Model.prototype = {
 
 module.exports = Model;
 
-},{"../config":59,"./API":60}],64:[function(require,module,exports){
+},{"../config":60,"./API":61}],66:[function(require,module,exports){
 'use strict';
 
 var _ = {
@@ -4454,7 +4511,7 @@ var defaults = {
     'face_count': null,
     'liked_by': null, // user id
     'user': null, // user id
-    'folder': null, // folder id
+    'collection': null, // collection id
 
     'sort_by': '-createdAt', // '-createdAt', '-viewCount', '-likeCount'
 };
@@ -4485,7 +4542,7 @@ Models.prototype = {
      * @param {int} [params.face_count] - Filter on the number of faces
      * @param {string} [params.liked_by] - User id to get likes from
      * @param {string} [params.user] - User id to get models from
-     * @param {string} [params.folder] - Folder id to get models from
+     * @param {string} [params.collection] - Collection id to get models from
      *
      * @return Promise
      */
@@ -4596,7 +4653,7 @@ Models.prototype = {
 
 module.exports = Models;
 
-},{"../config":59,"./API":60,"lodash/object/defaults":35,"lodash/object/keys":36,"lodash/object/pick":38}],65:[function(require,module,exports){
+},{"../config":60,"./API":61,"lodash/object/defaults":35,"lodash/object/keys":37,"lodash/object/pick":39}],67:[function(require,module,exports){
 'use strict';
 
 var _ = {
@@ -4713,7 +4770,7 @@ Users.prototype = {
 
 module.exports = Users;
 
-},{"../config":59,"./API":60,"lodash/object/defaults":35,"lodash/object/keys":36,"lodash/object/pick":38}],66:[function(require,module,exports){
+},{"../config":60,"./API":61,"lodash/object/defaults":35,"lodash/object/keys":37,"lodash/object/pick":39}],68:[function(require,module,exports){
 function parseQueryString(queryString) {
     var result = {};
     queryString.split("&").forEach(function(part) {

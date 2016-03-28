@@ -57,3 +57,13 @@ sketchfabSDK.Models.byUserId(116).then(function(response){
         return result.name + ' by ' + result.user.displayName;
     }));
 });
+
+sketchfabSDK.Models.all({
+    'collection': '862c7cd47f5b4086b5a875961f346719',
+    'sort_by': '-collectedAt'
+}).then(function(response){
+    console.log('\n\n\n\nModels in collection 862c7cd47f5b4086b5a875961f346719');
+    console.log(response.results.map(function(result){
+        return result.name + ' by ' + result.user.displayName;
+    }));
+});
