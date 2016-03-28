@@ -2,7 +2,7 @@
 
 var _ = {
     pick: require('lodash/object/pick'),
-    defaults: require('lodash/object/defaults'),
+    extend: require('lodash/object/extend'),
     keys: require('lodash/object/keys')
 };
 var API = require('./API');
@@ -60,9 +60,10 @@ Models.prototype = {
      */
     all: function(params) {
 
-        // Fill in default values, remove unknown params
-        var queryParams = _.pick(_.defaults(params, defaults), _.keys(defaults));
-
+        // Fill in default values
+        var queryParams = _.extend({}, defaults, params);
+        // Remove unknown params
+        queryParams = _.pick(queryParams, _.keys(defaults));
         return API.get(config.MODELS_ENDPOINT, queryParams);
     },
 

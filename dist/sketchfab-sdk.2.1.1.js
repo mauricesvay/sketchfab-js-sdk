@@ -4378,7 +4378,7 @@ module.exports = Collections;
 
 var _ = {
     pick: require('lodash/object/pick'),
-    defaults: require('lodash/object/defaults'),
+    extend: require('lodash/object/extend'),
     keys: require('lodash/object/keys')
 };
 var API = require('./API');
@@ -4421,7 +4421,8 @@ Feed.prototype = {
         }
 
         // Fill in default values, remove unknown params
-        var queryParams = _.pick(_.defaults(params, defaults), _.keys(defaults));
+        var queryParams = _.extend({}, defaults, params);
+        queryParams = _.pick(queryParams, _.keys(defaults));
 
         return API.get(config.FEED_ENDPOINT, queryParams, headers);
     },
@@ -4429,7 +4430,7 @@ Feed.prototype = {
 
 module.exports = Feed;
 
-},{"../config":60,"./API":61,"lodash/object/defaults":35,"lodash/object/keys":37,"lodash/object/pick":39}],65:[function(require,module,exports){
+},{"../config":60,"./API":61,"lodash/object/extend":36,"lodash/object/keys":37,"lodash/object/pick":39}],65:[function(require,module,exports){
 'use strict';
 
 var API = require('./API');
@@ -4490,7 +4491,7 @@ module.exports = Model;
 
 var _ = {
     pick: require('lodash/object/pick'),
-    defaults: require('lodash/object/defaults'),
+    extend: require('lodash/object/extend'),
     keys: require('lodash/object/keys')
 };
 var API = require('./API');
@@ -4548,9 +4549,10 @@ Models.prototype = {
      */
     all: function(params) {
 
-        // Fill in default values, remove unknown params
-        var queryParams = _.pick(_.defaults(params, defaults), _.keys(defaults));
-
+        // Fill in default values
+        var queryParams = _.extend({}, defaults, params);
+        // Remove unknown params
+        queryParams = _.pick(queryParams, _.keys(defaults));
         return API.get(config.MODELS_ENDPOINT, queryParams);
     },
 
@@ -4653,12 +4655,12 @@ Models.prototype = {
 
 module.exports = Models;
 
-},{"../config":60,"./API":61,"lodash/object/defaults":35,"lodash/object/keys":37,"lodash/object/pick":39}],67:[function(require,module,exports){
+},{"../config":60,"./API":61,"lodash/object/extend":36,"lodash/object/keys":37,"lodash/object/pick":39}],67:[function(require,module,exports){
 'use strict';
 
 var _ = {
     pick: require('lodash/object/pick'),
-    defaults: require('lodash/object/defaults'),
+    extend: require('lodash/object/extend'),
     keys: require('lodash/object/keys')
 };
 var API = require('./API');
@@ -4711,7 +4713,8 @@ Users.prototype = {
      */
     all: function(params) {
 
-        var queryParams = _.pick(_.defaults(params, defaults), _.keys(defaults));
+        var queryParams = _.extend({}, defaults, params);
+        queryParams = _.pick(queryParams, _.keys(defaults));
         return API.get(config.USERS_ENDPOINT, queryParams);
     },
 
@@ -4770,7 +4773,7 @@ Users.prototype = {
 
 module.exports = Users;
 
-},{"../config":60,"./API":61,"lodash/object/defaults":35,"lodash/object/keys":37,"lodash/object/pick":39}],68:[function(require,module,exports){
+},{"../config":60,"./API":61,"lodash/object/extend":36,"lodash/object/keys":37,"lodash/object/pick":39}],68:[function(require,module,exports){
 function parseQueryString(queryString) {
     var result = {};
     queryString.split("&").forEach(function(part) {

@@ -2,7 +2,7 @@
 
 var _ = {
     pick: require('lodash/object/pick'),
-    defaults: require('lodash/object/defaults'),
+    extend: require('lodash/object/extend'),
     keys: require('lodash/object/keys')
 };
 var API = require('./API');
@@ -45,7 +45,8 @@ Feed.prototype = {
         }
 
         // Fill in default values, remove unknown params
-        var queryParams = _.pick(_.defaults(params, defaults), _.keys(defaults));
+        var queryParams = _.extend({}, defaults, params);
+        queryParams = _.pick(queryParams, _.keys(defaults));
 
         return API.get(config.FEED_ENDPOINT, queryParams, headers);
     },
