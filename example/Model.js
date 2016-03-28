@@ -10,10 +10,6 @@ sketchfabSDK.Model.annotations('387889bbe73648c38589a3fffd1f876c').then(function
     console.log(response);
 });
 
-sketchfabSDK.Model.textures('387889bbe73648c38589a3fffd1f876c').then(function(response){
-    console.log(response);
-});
-
 sketchfabSDK.Model.comments('387889bbe73648c38589a3fffd1f876c').then(function(response){
     console.log(response);
 });

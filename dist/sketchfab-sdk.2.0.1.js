@@ -4410,17 +4410,6 @@ Model.prototype = {
     },
 
     /**
-     * Get textures for model. This method uses a private API. It might break in the future.
-     * @memberof SketchfabSDK.Model#
-     * @param {string} id - Model id
-     * @return Promise
-     */
-    textures: function(id) {
-        console.warn('Model.textures is not a public API. It might break in the future.');
-        return API.get('/i/models/' + id + '/textures');
-    },
-
-    /**
      * Get comments for model. This method uses a private API. It might break in the future.
      * @memberof SketchfabSDK.Model#
      * @param {string} id - Model id
