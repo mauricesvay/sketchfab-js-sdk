@@ -13,3 +13,7 @@ sketchfabSDK.Model.annotations('387889bbe73648c38589a3fffd1f876c').then(function
 sketchfabSDK.Model.comments('387889bbe73648c38589a3fffd1f876c').then(function(response){
     console.log(response);
 });
+
+sketchfabSDK.Model.likes('387889bbe73648c38589a3fffd1f876c').then(function(response){
+    console.log(response);
+});

@@ -47,6 +47,21 @@ Model.prototype = {
             model: id,
             offset: offset
         });
+    },
+
+    /**
+     * Get likes for model. This method uses a private API. It might break in the future.
+     * @memberof SketchfabSDK.Model#
+     * @param {string} id - Model id
+     * @param {int} offset - Pagination offset
+     * @return Promise
+     */
+    likes: function(id, offset) {
+        console.warn('Model.likes is not a public API. It might break in the future.');
+        return API.get(config.LIKES_ENDPOINT, {
+            model: id,
+            offset: offset
+        });
     }
 
 };

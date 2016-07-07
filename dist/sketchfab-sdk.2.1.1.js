@@ -17,7 +17,7 @@ var resources = {
 }
 
 /** @namespace */
-function SketchfabSDK( options ) {
+function SketchfabSDK(options) {
     var defaults = {
         client_id: null,
         redirect_uri: null,
@@ -4255,6 +4255,7 @@ var CONFIG = {
     CATEGORIES_ENDPOINT: '/v2/categories',
     COLLECTIONS_ENDPOINT: '/i/collections',
     COMMENTS_ENDPOINT: '/i/comments',
+    LIKES_ENDPOINT: '/i/likes',
     MODELS_ENDPOINT: '/v2/models',
     USERS_ENDPOINT: '/v2/users',
     FEED_ENDPOINT: '/i/feeds',
@@ -4477,6 +4478,21 @@ Model.prototype = {
     comments: function(id, offset) {
         console.warn('Model.comments is not a public API. It might break in the future.');
         return API.get(config.COMMENTS_ENDPOINT, {
+            model: id,
+            offset: offset
+        });
+    },
+
+    /**
+     * Get likes for model. This method uses a private API. It might break in the future.
+     * @memberof SketchfabSDK.Model#
+     * @param {string} id - Model id
+     * @param {int} offset - Pagination offset
+     * @return Promise
+     */
+    likes: function(id, offset) {
+        console.warn('Model.likes is not a public API. It might break in the future.');
+        return API.get(config.LIKES_ENDPOINT, {
             model: id,
             offset: offset
         });

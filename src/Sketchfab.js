@@ -16,7 +16,7 @@ var resources = {
 }
 
 /** @namespace */
-function SketchfabSDK( options ) {
+function SketchfabSDK(options) {
     var defaults = {
         client_id: null,
         redirect_uri: null,

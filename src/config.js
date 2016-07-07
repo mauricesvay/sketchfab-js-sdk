@@ -10,6 +10,7 @@ var CONFIG = {
     CATEGORIES_ENDPOINT: '/v2/categories',
     COLLECTIONS_ENDPOINT: '/i/collections',
     COMMENTS_ENDPOINT: '/i/comments',
+    LIKES_ENDPOINT: '/i/likes',
     MODELS_ENDPOINT: '/v2/models',
     USERS_ENDPOINT: '/v2/users',
     FEED_ENDPOINT: '/i/feeds',

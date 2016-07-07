@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: libs/Categories.js</title>
+    <title>JSDoc: Source: libs/User.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: libs/Categories.js</h1>
+    <h1 class="page-title">Source: libs/User.js</h1>
 
     
 
@@ -35,25 +35,37 @@ var config = require('../config');
  * @namespace
  * @memberof SketchfabSDK
  */
-function Categories(sdk) {
+function User(sdk) {
     this.sdk = sdk;
 };
 
-Categories.prototype = {
+User.prototype = {
 
     /**
-     * Get categories
-     * @memberof SketchfabSDK.Categories#
+     * Get backgrounds for user
+     * @memberof SketchfabSDK.User#
+     * @param {string} id - User id
      * @return Promise
      */
-    all: function() {
-        return API.get(config.CATEGORIES_ENDPOINT);
+    backgrounds: function(userId) {
+        console.warn('User.backgrounds is not a public API. It might break in the future.');
+        return API.get('/i/users/' + userId + '/backgrounds');
+    },
+
+    /**
+     * Get environments for user
+     * @memberof SketchfabSDK.User#
+     * @param {string} id - User id
+     * @return Promise
+     */
+    environments: function(userId) {
+        console.warn('User.environments is not a public API. It might break in the future.');
+        return API.get('/i/users/' + userId + '/environments');
     }
 
-};
+}
 
-module.exports = Categories;
-</code></pre>
+module.exports = User;</code></pre>
         </article>
     </section>
 
