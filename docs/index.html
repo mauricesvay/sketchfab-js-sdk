@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sketchfab JS SDK</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script type="text/javascript" src="./sketchfab-sdk.3.0.0.js"></script>
+    <style>
+    code {
+        display: block;
+        margin-top: 1em;
+    }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1>Skechfab JS SDK</h1>
+
+    <p>
+        <b>sketchfab-js-sdk</b> is an unofficial JavaScript SDK for the Sketchfab data API.
+        The SDK works for both browsers and Node.js.
+    </p>
+
+    <h2>API Documentation</h2>
+    <p>Full SDK API documentation: <a href="./generated/">generated API doc</a></p>
+
+    <h2>Examples</h2>
+
+    <p>See the <a href="https://github.com/mauricesvay/sketchfab-js-sdk/tree/master/example"><b>examples/</b></a> folder for examples.</p>
+
+    <h2>Authentication</h2>
+    <p>The SDK offers help functions to login with OAuth2 in a browser.</p>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <button onclick="login()">Login with Sketchfab</button>
+        </div>
+    </div>
+
+    <p>Code:</p>
+    <pre>
+var sketchfabSDK = new SketchfabSDK({
+    client_id: '6gLgJqAV_hVORbU8YAckMEy=RwitobgQs=TTSVwi',
+    redirect_uri: 'http://svay.com/clients/sketchfab/sketchfab-js-sdk/authSuccess.html'
+});
+
+function login() {
+    // Authenticate with OAuth2
+    sketchfabSDK.connect()
+        .then(function(grant){
+            // Get user info
+            window.OAuth2Grant = grant;
+            return sketchfabSDK.Users.me();
+        })
+        .then(function(response){
+            // Log user info
+            console.log(response);
+            output(JSON.stringify(response, null, 4));
+        })
+        .catch(function(error){
+            console.log(error);
+        });
+}
+    </pre>
+
+    <p>Output:</p>
+    <pre><samp class="login-output"></samp></pre>
+
+    <script type="text/javascript">
+    function output(str) {
+        document.querySelector('.login-output').innerText = str;
+    }
+
+    var sketchfabSDK = new SketchfabSDK({
+        client_id: '6gLgJqAV_hVORbU8YAckMEy=RwitobgQs=TTSVwi',
+        redirect_uri: 'http://svay.com/clients/sketchfab/sketchfab-js-sdk/authSuccess.html'
+    });
+
+    /**
+     * Authentication
+     */
+    function login() {
+        // Authenticate with OAuth2
+        sketchfabSDK.connect()
+            .then(function(grant){
+                // Get user info
+                window.OAuth2Grant = grant;
+                return sketchfabSDK.Users.me();
+            })
+            .then(function(response){
+                // Log user info
+                console.log(response);
+                output(JSON.stringify(response, null, 4));
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+    }
+    </script>
+</div>
+</body>
+</html>

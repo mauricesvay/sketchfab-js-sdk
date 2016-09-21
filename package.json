@@ -1,11 +1,8 @@
 {
   "name": "SketchfabSDK",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "description": "Sketchfab JS SDK",
   "main": "src/Sketchfab.js",
-  "scripts": {
-    "docs": "jsdoc -r ./src/ -d ./dist/docs/"
-  },
   "author": "Maurice Svay <maurice@svay.com>",
   "license": "MIT",
   "dependencies": {
