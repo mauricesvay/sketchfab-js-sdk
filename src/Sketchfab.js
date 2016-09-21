@@ -20,7 +20,8 @@ function SketchfabSDK(options) {
     var defaults = {
         client_id: null,
         redirect_uri: null,
-        hostname: config.HOSTNAME
+        hostname: config.HOSTNAME,
+        authentication: null
     };
 
     this.options = _.defaults({}, options, defaults);
@@ -81,6 +82,7 @@ SketchfabSDK.prototype = {
 
                         if (hash.match(accessTokenRe)) {
                             grant = utils.parseQueryString(hash.substring(1));
+                            this.setAuthentication(grant);
                             resolve(grant);
                             return;
                         } else {
@@ -92,6 +94,10 @@ SketchfabSDK.prototype = {
             }.bind(this), 1000);
 
         }.bind(this));
+    },
+
+    setAuthentication: function(grant) {
+        this.authentication = grant;
     },
 
     _setupResources: function() {

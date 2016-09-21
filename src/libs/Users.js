@@ -26,18 +26,22 @@ function Users(sdk) {
 };
 
 Users.prototype = {
+
+    _getHeaders: function() {
+        var headers = {};
+        if (this.sdk.authentication && this.sdk.authentication.access_token) {
+            headers['Authorization'] = 'Bearer ' + this.sdk.authentication.access_token;
+        }
+        return headers;
+    },
+
     /**
      * Get user by OAuth token
      * @memberof SketchfabSDK.Users#
-     * @param {string} token - OAuth2 token
      * @return Promise
      */
-    me: function(token) {
-        var headers = {};
-        if (token) {
-            headers['Authorization'] = 'Bearer ' + token;
-        }
-        return API.get('/v2/users/me', null, headers);
+    me: function() {
+        return API.get('/v2/users/me', null, this._getHeaders());
     },
 
     /**

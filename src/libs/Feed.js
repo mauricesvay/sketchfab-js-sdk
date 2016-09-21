@@ -23,32 +23,32 @@ function Feed(sdk) {
 
 Feed.prototype = {
 
+    _getHeaders: function() {
+        var headers = {};
+        if (this.sdk.authentication && this.sdk.authentication.access_token) {
+            headers['Authorization'] = 'Bearer ' + this.sdk.authentication.access_token;
+        }
+        return headers;
+    },
+
     /**
      * Get feed stories
      * @memberof SketchfabSDK.Feed#
-     * @param {object} token - OAuth2 access token
      * @param {object} [params] - Pagination parameters
      * @param {int} [params.count=20] - Number of results
      * @param {int} [params.offset] - Offset for pagination
      *
      * @return Promise
      */
-    all: function(token, params) {
+    all: function(params) {
 
         console.warn('Feed.all is not a public API. It might break in the future.');
-
-        var headers = {};
-        if (token) {
-            headers['Authorization'] = 'Bearer ' + token;
-        } else {
-            throw new Error('OAuth2 access token is missing');
-        }
 
         // Fill in default values, remove unknown params
         var queryParams = _.extend({}, defaults, params);
         queryParams = _.pick(queryParams, _.keys(defaults));
 
-        return API.get(config.FEED_ENDPOINT, queryParams, headers);
+        return API.get(config.FEED_ENDPOINT, queryParams, this._getHeaders());
     },
 };
 

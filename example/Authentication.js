@@ -10,8 +10,8 @@ sketchfabSDK.setAuthentication({
     token_type: "Bearer"
 });
 
-sketchfabSDK.Feed.all().then(function(response) {
+sketchfabSDK.Users.me().then(function(response) {
     console.log(response);
 }).catch(function(response) {
-    console.log(response.responseText);
+    console.error(response.responseText);
 });
