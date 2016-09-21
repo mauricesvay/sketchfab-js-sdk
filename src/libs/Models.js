@@ -25,7 +25,7 @@ var defaults = {
     'user': null, // user id
     'collection': null, // collection id
 
-    'sort_by': '-createdAt', // '-createdAt', '-viewCount', '-likeCount'
+    'sort_by': '-publishedAt', // '-publishedAt', '-viewCount', '-likeCount', '-createdAt'
 };
 
 /**
@@ -44,7 +44,7 @@ Models.prototype = {
      * @param {object} [params] - Filtering and sorting parameters
      * @param {int} [params.count=24] - Number of results
      * @param {int} [params.offset] - Offset for pagination
-     * @param {string} [params.sort_by='-createdAt'] - Sorting field ['-createdAt', '-viewCount', '-likeCount']
+     * @param {string} [params.sort_by='-publishedAt'] - Sorting field ['-publishedAt', '-createdAt', '-viewCount', '-likeCount', '-staffpickedAt']
      *
      * @param {string} [params.search] - Search term
      * @param {string} [params.flag] - Flag: ['staffpicked']
@@ -89,7 +89,7 @@ Models.prototype = {
     popular: function(offset) {
         return this.all({
             date: 7,
-            sort_by: '-viewCount',
+            sort_by: '-likeCount',
             offset: offset
         });
     },
@@ -103,7 +103,8 @@ Models.prototype = {
     staffpicks: function(offset) {
         return this.all({
             flag: 'staffpicked',
-            offset: offset
+            offset: offset,
+            sort_by: '-staffpickedAt'
         });
     },
 
